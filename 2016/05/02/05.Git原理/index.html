@@ -3,17 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>CodingNote | by LQ</title>
+  <title>05.Git原理 | CodingNote | by LQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="学习是一种习惯">
-<meta property="og:type" content="website">
-<meta property="og:title" content="CodingNote | by LQ">
-<meta property="og:url" content="http://www.codingnote.net/index.html">
+  <meta name="description" content="Git工作原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="05.Git原理">
+<meta property="og:url" content="http://www.codingnote.net/2016/05/02/05.Git原理/index.html">
 <meta property="og:site_name" content="CodingNote | by LQ">
-<meta property="og:description" content="学习是一种习惯">
+<meta property="og:description" content="Git工作原理">
+<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/git05-1.png">
+<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/git05-2.png">
+<meta property="og:updated_time" content="2016-05-02T05:27:28.473Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CodingNote | by LQ">
-<meta name="twitter:description" content="学习是一种习惯">
+<meta name="twitter:title" content="05.Git原理">
+<meta name="twitter:description" content="Git工作原理">
+<meta name="twitter:image" content="http://7xst88.com2.z0.glb.clouddn.com/git05-1.png">
   
     <link rel="alternative" href="/atom.xml" title="CodingNote | by LQ" type="application/atom+xml">
   
@@ -27,9 +31,6 @@
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
-    
-    
-  
   
       <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   
@@ -40,8 +41,8 @@
       var yiliaConfig = {
           fancybox: true,
           animate: true,
-          isHome: true,
-          isPost: false,
+          isHome: false,
+          isPost: true,
           isArchive: false,
           isTag: false,
           isCategory: false,
@@ -221,9 +222,7 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap">
-  
-    <article id="post-05.Git原理" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-05.Git原理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2016/05/02/05.Git原理/" class="article-date">
@@ -239,519 +238,202 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/02/05.Git原理/">05.Git原理</a>
+    <h1 class="article-title" itemprop="name">
+      05.Git原理
     </h1>
   
 
       </header>
       
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>Git工作原理</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
+      <div class="article-info article-info-post">
+        
     <div class="article-category tagcloud">
     <a class="article-category-link" href="/categories/Git/">Git</a>
     </div>
 
 
-      
+        
     <div class="article-tag tagcloud">
         <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原理/">原理</a></li></ul>
     </div>
 
-      
-        <p class="article-more-link">
-          <a  href="/2016/05/02/05.Git原理/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-03.Android Studio之模拟器报错" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/05/02/03.Android Studio之模拟器报错/" class="article-date">
-      <time datetime="2016-05-02T05:00:50.000Z" itemprop="datePublished">2016-05-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/02/03.Android Studio之模拟器报错/">03.Android Studio之模拟器报错</a>
-    </h1>
-  
-
-      </header>
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
       
           
-              <p>Error Unable to start the Genymotion virtual device.解决方法</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Android-Studio/">Android Studio</a>
-    </div>
+        <p>Git工作原理</p>
+<a id="more"></a>
+<the rest="" of="" comments="" |="" 余下全文="">
 
 
+<h3 id="Git工作原理"><a href="#Git工作原理" class="headerlink" title="Git工作原理"></a>Git工作原理</h3><p>本章节我们将为大家介绍 Git 的工作原理。<br>一般工作流程如下：<br>克隆 Git 资源作为工作目录。<br>在克隆的资源上添加或修改文件。<br>如果其他人修改了，你可以更新资源。<br>在提交前查看修改。<br>提交修改。<br>在修改完成后，如果发现错误，可以撤回提交并再次修改并提交。<br>下图展示了 Git 的工作流程：<br><img src="http://7xst88.com2.z0.glb.clouddn.com/git05-1.png" alt="工作流程"></p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>基本概念<br>我们先来理解下Git 工作区、暂存区和版本库概念<br>工作区：就是你在电脑里能看到的目录。<br>暂存区：英文叫stage, 或index。一般存放在”git目录”下的index文件（.git/index）中，所以我们把暂存区有时也叫作索引（index）。<br>版本库：工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。<br>下面这个图展示了工作区、版本库中的暂存区和版本库之间的关系：<br><img src="http://7xst88.com2.z0.glb.clouddn.com/git05-2.png" alt="工作流程"></p>
+<p>图中左侧为工作区，右侧为版本库。在版本库中标记为 “index” 的区域是暂存区（stage, index），标记为 “master” 的是 master 分支所代表的目录树。<br>图中我们可以看出此时 “HEAD” 实际是指向 master 分支的一个”游标”。所以图示的命令中出现 HEAD 的地方可以用 master 来替换。<br>图中的 objects 标识的区域为 Git 的对象库，实际位于 “.git/objects” 目录下，里面包含了创建的各种对象及内容。<br>当对工作区修改（或新增）的文件执行 “git add” 命令时，暂存区的目录树被更新，同时工作区修改（或新增）的文件内容被写入到对象库中的一个新的对象中，而该对象的ID被记录在暂存区的文件索引中。<br>当执行提交操作（git commit）时，暂存区的目录树写到版本库（对象库）中，master 分支会做相应的更新。即 master 指向的目录树就是提交时暂存区的目录树。<br>当执行 “git reset HEAD” 命令时，暂存区的目录树会被重写，被 master 分支指向的目录树所替换，但是工作区不受影响。<br>当执行 “git rm –cached <file>“ 命令时，会直接从暂存区删除文件，工作区则不做出改变。<br>当执行 “git checkout .” 或者 “git checkout – <file>“ 命令时，会用暂存区全部或指定的文件替换工作区的文件。这个操作很危险，会清除工作区中未添加到暂存区的改动。<br>当执行 “git checkout HEAD .” 或者 “git checkout HEAD <file>“ 命令时，会用 HEAD 指向的 master 分支中的全部或者部分文件替换暂存区和以及工作区中的文件。这个命令也是极具危险性的，因为不但会清除工作区中未提交的改动，也会清除暂存区中未提交的改动</file></file></file></p>
+<p>来源： <a href="http://www.runoob.com/git/git-workspace-index-repo.html" target="_blank" rel="external">http://www.runoob.com/git/git-workspace-index-repo.html</a></p>
+</the>
       
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/模拟器/">模拟器</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/05/02/03.Android Studio之模拟器报错/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
     </div>
     
   </div>
   
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/05/02/05.Git原理/">05.Git原理</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Lin Qiang 的个人博客">Lin Qiang</a></p>
+        <p><span>发布时间:</span>2016年05月02日 - 13时23分</p>
+        <p><span>最后更新:</span>2016年05月02日 - 13时27分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/05/02/05.Git原理/" title="05.Git原理">http://www.codingnote.net/2016/05/02/05.Git原理/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/05/02/05.Git原理/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2016/05/02/03.Android Studio之模拟器报错/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">03.Android Studio之模拟器报错</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
 </article>
 
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Git工作原理"><span class="toc-number">1.</span> <span class="toc-text">Git工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-number">2.</span> <span class="toc-text">基本概念</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
 
 
 
 
 
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 
 
 
-  
-    <article id="post-02.Android Studio入门教程02" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/05/01/02.Android Studio入门教程02/" class="article-date">
-      <time datetime="2016-05-01T13:06:53.000Z" itemprop="datePublished">2016-05-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
+
     
-      <input type="hidden" class="isFancy" />
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/05/02/05.Git原理/" data-title="05.Git原理" data-url="http://www.codingnote.net/2016/05/02/05.Git原理/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"null"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
     
-    
-      <header class="article-header">
+
+
+
+    <div class="scroll" id="post-nav-button">
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/01/02.Android Studio入门教程02/">02.Android Studio 入门教程之模拟器安装</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>Android Studio 入门教程之genymotion模拟器安装</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Android-Studio/">Android Studio</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/基础/">基础</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/05/01/02.Android Studio入门教程02/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-01.Android Studio入门教程01" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/05/01/01.Android Studio入门教程01/" class="article-date">
-      <time datetime="2016-05-01T12:53:37.000Z" itemprop="datePublished">2016-05-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/01/01.Android Studio入门教程01/">01.Android Studio入门教程之常用配置</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>Android Studio 使用入门教程之常用配置</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Android-Studio/">Android Studio</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/基础/">基础</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/05/01/01.Android Studio入门教程01/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-04.git添加与修改文件" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/05/01/04.git添加与修改文件/" class="article-date">
-      <time datetime="2016-05-01T10:34:04.000Z" itemprop="datePublished">2016-05-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/01/04.git添加与修改文件/">04.git添加与修改文件</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>将文件添加到git版本库,并且跟踪文件状态</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Git/">Git</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/添加与修改/">添加与修改</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/05/01/04.git添加与修改文件/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-03.搭建git本地仓库" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/05/01/03.搭建git本地仓库/" class="article-date">
-      <time datetime="2016-05-01T09:51:43.000Z" itemprop="datePublished">2016-05-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+            <a href="/2016/05/02/03.Android Studio之模拟器报错/" title="下一篇: 03.Android Studio之模拟器报错">
+                <i class="fa fa-angle-right"></i>
+            </a>
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/01/03.搭建git本地仓库/">03.搭建git本地仓库</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>什么是git仓库？如何搭建git仓库？</p>
-          
-      
     </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Git/">Git</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/搭建/">搭建</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/05/01/03.搭建git本地仓库/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/05.Git原理/">05.Git原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/03.Android Studio之模拟器报错/">03.Android Studio之模拟器报错</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/02.Android Studio入门教程02/">02.Android Studio 入门教程之模拟器安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/01.Android Studio入门教程01/">01.Android Studio入门教程之常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/04.git添加与修改文件/">04.git添加与修改文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/03.搭建git本地仓库/">03.搭建git本地仓库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/02.git安装/">02.git安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/01.git简介/">01.git简介</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
 
 
 
-
-
-
-
-
-
-  
-    <article id="post-02.git安装" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/05/01/02.git安装/" class="article-date">
-      <time datetime="2016-05-01T09:43:57.000Z" itemprop="datePublished">2016-05-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
+    <script>
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/01/02.git安装/">02.git安装</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>git 安装(for windows )</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Git/">Git</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/安装/">安装</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/05/01/02.git安装/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-01.git简介" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/05/01/01.git简介/" class="article-date">
-      <time datetime="2016-05-01T09:05:52.000Z" itemprop="datePublished">2016-05-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/01/01.git简介/">01.git简介</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p>Git是目前世界上最先进的分布式版本控制系统;</p>
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Git/">Git</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/简介/">简介</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a  href="/2016/05/01/01.git简介/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-  
+    </script>
 </div>
       <footer id="footer">
     <div class="outer">
