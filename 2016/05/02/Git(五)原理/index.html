@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Android Studio 入门教程之模拟器安装 | CodingNote | by LQ</title>
+  <title>Git(五)原理 | CodingNote | by LQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Android Studio 入门教程之genymotion模拟器安装">
+  <meta name="description" content="Git工作原理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android Studio 入门教程之模拟器安装">
-<meta property="og:url" content="http://www.codingnote.net/2016/05/01/02.Android Studio入门教程02/index.html">
+<meta property="og:title" content="Git(五)原理">
+<meta property="og:url" content="http://www.codingnote.net/2016/05/02/Git(五)原理/index.html">
 <meta property="og:site_name" content="CodingNote | by LQ">
-<meta property="og:description" content="Android Studio 入门教程之genymotion模拟器安装">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Studio02-1.png">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Studio02-2.png">
-<meta property="og:updated_time" content="2016-05-07T14:12:47.552Z">
+<meta property="og:description" content="Git工作原理">
+<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/git05-1.png">
+<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/git05-2.png">
+<meta property="og:updated_time" content="2016-05-07T14:10:27.515Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android Studio 入门教程之模拟器安装">
-<meta name="twitter:description" content="Android Studio 入门教程之genymotion模拟器安装">
-<meta name="twitter:image" content="http://7xst88.com2.z0.glb.clouddn.com/Studio02-1.png">
+<meta name="twitter:title" content="Git(五)原理">
+<meta name="twitter:description" content="Git工作原理">
+<meta name="twitter:image" content="http://7xst88.com2.z0.glb.clouddn.com/git05-1.png">
   
     <link rel="alternative" href="/atom.xml" title="CodingNote | by LQ" type="application/atom+xml">
   
@@ -214,11 +214,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-02.Android Studio入门教程02" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Git(五)原理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/05/01/02.Android Studio入门教程02/" class="article-date">
-      <time datetime="2016-05-01T13:06:53.000Z" itemprop="datePublished">2016-05-01</time>
+      <a href="/2016/05/02/Git(五)原理/" class="article-date">
+      <time datetime="2016-05-02T05:23:52.000Z" itemprop="datePublished">2016-05-02</time>
 </a>
     </div>
   
@@ -231,7 +231,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Android Studio 入门教程之模拟器安装
+      Git(五)原理
     </h1>
   
 
@@ -240,13 +240,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Android-Studio/">Android Studio</a>
+    <a class="article-category-link" href="/categories/Git/">Git</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/基础/">基础</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原理/">原理</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -256,13 +256,15 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Android Studio 入门教程之genymotion模拟器安装</p>
+        <p>Git工作原理</p>
 <a id="more"></a>
 <the rest="" of="" comments="" |="" 余下全文="">
 
 
-<h3 id="1-下载Genymotion-模拟器"><a href="#1-下载Genymotion-模拟器" class="headerlink" title="1.下载Genymotion 模拟器"></a>1.下载Genymotion 模拟器</h3><p>www.genymotion.com 点击下载pc版本 （注意下载genymotion之前需要在官网注册才能下载）<br>下载完成之后一路安装即可。 </p>
-<h3 id="在Android-Studio-中配置Genymotion模拟器"><a href="#在Android-Studio-中配置Genymotion模拟器" class="headerlink" title=".在Android Studio 中配置Genymotion模拟器"></a>.在Android Studio 中配置Genymotion模拟器</h3><p>点击输入Genymotion 点击安装插件<br><img src="http://7xst88.com2.z0.glb.clouddn.com/Studio02-1.png" alt="配置Genymotion模拟器"><br>3.模拟器和插件安装完之后重启studio<br>重启之后点击这个按钮运行，第一次运行需要配置genymotion的安装路径 配置即可<br><img src="http://7xst88.com2.z0.glb.clouddn.com/Studio02-2.png" alt="启动"></p>
+<h3 id="Git工作原理"><a href="#Git工作原理" class="headerlink" title="Git工作原理"></a>Git工作原理</h3><p>本章节我们将为大家介绍 Git 的工作原理。<br>一般工作流程如下：<br>克隆 Git 资源作为工作目录。<br>在克隆的资源上添加或修改文件。<br>如果其他人修改了，你可以更新资源。<br>在提交前查看修改。<br>提交修改。<br>在修改完成后，如果发现错误，可以撤回提交并再次修改并提交。<br>下图展示了 Git 的工作流程：<br><img src="http://7xst88.com2.z0.glb.clouddn.com/git05-1.png" alt="工作流程"></p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>基本概念<br>我们先来理解下Git 工作区、暂存区和版本库概念<br>工作区：就是你在电脑里能看到的目录。<br>暂存区：英文叫stage, 或index。一般存放在”git目录”下的index文件（.git/index）中，所以我们把暂存区有时也叫作索引（index）。<br>版本库：工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。<br>下面这个图展示了工作区、版本库中的暂存区和版本库之间的关系：<br><img src="http://7xst88.com2.z0.glb.clouddn.com/git05-2.png" alt="工作流程"></p>
+<p>图中左侧为工作区，右侧为版本库。在版本库中标记为 “index” 的区域是暂存区（stage, index），标记为 “master” 的是 master 分支所代表的目录树。<br>图中我们可以看出此时 “HEAD” 实际是指向 master 分支的一个”游标”。所以图示的命令中出现 HEAD 的地方可以用 master 来替换。<br>图中的 objects 标识的区域为 Git 的对象库，实际位于 “.git/objects” 目录下，里面包含了创建的各种对象及内容。<br>当对工作区修改（或新增）的文件执行 “git add” 命令时，暂存区的目录树被更新，同时工作区修改（或新增）的文件内容被写入到对象库中的一个新的对象中，而该对象的ID被记录在暂存区的文件索引中。<br>当执行提交操作（git commit）时，暂存区的目录树写到版本库（对象库）中，master 分支会做相应的更新。即 master 指向的目录树就是提交时暂存区的目录树。<br>当执行 “git reset HEAD” 命令时，暂存区的目录树会被重写，被 master 分支指向的目录树所替换，但是工作区不受影响。<br>当执行 “git rm –cached <file>“ 命令时，会直接从暂存区删除文件，工作区则不做出改变。<br>当执行 “git checkout .” 或者 “git checkout – <file>“ 命令时，会用暂存区全部或指定的文件替换工作区的文件。这个操作很危险，会清除工作区中未添加到暂存区的改动。<br>当执行 “git checkout HEAD .” 或者 “git checkout HEAD <file>“ 命令时，会用 HEAD 指向的 master 分支中的全部或者部分文件替换暂存区和以及工作区中的文件。这个命令也是极具危险性的，因为不但会清除工作区中未提交的改动，也会清除暂存区中未提交的改动</file></file></file></p>
+<p>来源： <a href="http://www.runoob.com/git/git-workspace-index-repo.html" target="_blank" rel="external">http://www.runoob.com/git/git-workspace-index-repo.html</a></p>
 </the>
       
     </div>
@@ -271,13 +273,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/05/01/02.Android Studio入门教程02/">Android Studio 入门教程之模拟器安装</a></p>
+        <p><span>本文标题:</span><a href="/2016/05/02/Git(五)原理/">Git(五)原理</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Lin Qiang 的个人博客">Lin Qiang</a></p>
-        <p><span>发布时间:</span>2016年05月01日 - 21时06分</p>
-        <p><span>最后更新:</span>2016年05月07日 - 22时12分</p>
+        <p><span>发布时间:</span>2016年05月02日 - 13时23分</p>
+        <p><span>最后更新:</span>2016年05月07日 - 22时10分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/05/01/02.Android Studio入门教程02/" title="Android Studio 入门教程之模拟器安装">http://www.codingnote.net/2016/05/01/02.Android Studio入门教程02/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/05/01/02.Android Studio入门教程02/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/05/02/Git(五)原理/" title="Git(五)原理">http://www.codingnote.net/2016/05/02/Git(五)原理/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/05/02/Git(五)原理/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -290,18 +292,18 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/05/02/03.Android Studio之模拟器报错/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/05/07/搭建github博客（一）之-唠嗑/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          Android Studio之模拟器报错
+          搭建github博客(一)之唠嗑
         
       </div>
     </a>
   
   
-    <a href="/2016/05/01/01.Android Studio入门教程01/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android Studio入门教程之常用配置</div>
+    <a href="/2016/05/02/03.Android Studio之模拟器报错/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android Studio之模拟器报错</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -312,7 +314,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-下载Genymotion-模拟器"><span class="toc-number">1.</span> <span class="toc-text">1.下载Genymotion 模拟器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在Android-Studio-中配置Genymotion模拟器"><span class="toc-number">2.</span> <span class="toc-text">.在Android Studio 中配置Genymotion模拟器</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Git工作原理"><span class="toc-number">1.</span> <span class="toc-text">Git工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-number">2.</span> <span class="toc-text">基本概念</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -374,7 +376,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/05/01/02.Android Studio入门教程02/" data-title="Android Studio 入门教程之模拟器安装" data-url="http://www.codingnote.net/2016/05/01/02.Android Studio入门教程02/"></div>
+    <div class="ds-thread" data-thread-key="2016/05/02/Git(五)原理/" data-title="Git(五)原理" data-url="http://www.codingnote.net/2016/05/02/Git(五)原理/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -397,13 +399,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/05/02/03.Android Studio之模拟器报错/" title="上一篇: Android Studio之模拟器报错">
+            <a href="/2016/05/07/搭建github博客（一）之-唠嗑/" title="上一篇: 搭建github博客(一)之唠嗑">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/05/01/01.Android Studio入门教程01/" title="下一篇: Android Studio入门教程之常用配置">
+            <a href="/2016/05/02/03.Android Studio之模拟器报错/" title="下一篇: Android Studio之模拟器报错">
                 <i class="fa fa-angle-right"></i>
             </a>
         
