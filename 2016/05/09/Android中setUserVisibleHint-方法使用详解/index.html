@@ -3,24 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>(原创) Android Studio之模拟器报错 | CodingNote | by LQ</title>
+  <title>Android中setUserVisibleHint()方法使用详解 | CodingNote | by LQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Error Unable to start the Genymotion virtual device.解决方法">
+  <meta name="description" content="利用setUserVisibleHint()实现懒加载">
 <meta property="og:type" content="article">
-<meta property="og:title" content="(原创) Android Studio之模拟器报错">
-<meta property="og:url" content="http://www.codingnote.net/2016/05/02/03.Android Studio之模拟器报错/index.html">
+<meta property="og:title" content="Android中setUserVisibleHint()方法使用详解">
+<meta property="og:url" content="http://www.codingnote.net/2016/05/09/Android中setUserVisibleHint-方法使用详解/index.html">
 <meta property="og:site_name" content="CodingNote | by LQ">
-<meta property="og:description" content="Error Unable to start the Genymotion virtual device.解决方法">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Studio3-1.png">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Studio3-2.png">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Studio3-3.png">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Studio3-4.png">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Studio3-5.png">
-<meta property="og:updated_time" content="2016-05-07T14:17:57.464Z">
+<meta property="og:description" content="利用setUserVisibleHint()实现懒加载">
+<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/setUserVisibleHint-01.png">
+<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/setUserVisibleHint-02.png">
+<meta property="og:updated_time" content="2016-05-09T14:40:10.064Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="(原创) Android Studio之模拟器报错">
-<meta name="twitter:description" content="Error Unable to start the Genymotion virtual device.解决方法">
-<meta name="twitter:image" content="http://7xst88.com2.z0.glb.clouddn.com/Studio3-1.png">
+<meta name="twitter:title" content="Android中setUserVisibleHint()方法使用详解">
+<meta name="twitter:description" content="利用setUserVisibleHint()实现懒加载">
+<meta name="twitter:image" content="http://7xst88.com2.z0.glb.clouddn.com/setUserVisibleHint-01.png">
   
     <link rel="alternative" href="/atom.xml" title="CodingNote | by LQ" type="application/atom+xml">
   
@@ -217,11 +214,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-03.Android Studio之模拟器报错" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android中setUserVisibleHint-方法使用详解" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/05/02/03.Android Studio之模拟器报错/" class="article-date">
-      <time datetime="2016-05-02T05:00:50.000Z" itemprop="datePublished">2016-05-02</time>
+      <a href="/2016/05/09/Android中setUserVisibleHint-方法使用详解/" class="article-date">
+      <time datetime="2016-05-09T14:35:22.000Z" itemprop="datePublished">2016-05-09</time>
 </a>
     </div>
   
@@ -234,7 +231,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      (原创) Android Studio之模拟器报错
+      Android中setUserVisibleHint()方法使用详解
     </h1>
   
 
@@ -243,13 +240,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Android-Studio/">Android Studio</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/模拟器/">模拟器</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/方法使用/">方法使用</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -259,16 +256,14 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Error Unable to start the Genymotion virtual device.解决方法</p>
+        <p> 利用setUserVisibleHint()实现懒加载</p>
 <a id="more"></a>
 <the rest="" of="" comments="" |="" 余下全文="">
 
-<p>Error Unable to start the Genymotion virtual device.解决方法</p>
-<p>Genymotion安卓模拟器虽然给我们测试软件或者做微信营销、网赚项目等带来了很大的便利，但是又经常出问题让我们煞费苦心，今天电脑知识网小编又将给大家分享如何解决：<br>Error Unable to start the Genymotion virtual device.这样的错误提示。<br><img src="http://7xst88.com2.z0.glb.clouddn.com/Studio3-1.png" alt="错误提示"><br>The Genymotion virtual device could not obtain an IP address.<br>For an unknown reason.VirtualBox DHCP has not assingned an IP address<br>to virtual device.Run the VirtualBox software to check for issues.<br>For more help refer to:<a href="https://cloud.genymotion.com/page/faq/#collapse-nostart" target="_blank" rel="external">https://cloud.genymotion.com/page/faq/#collapse-nostart</a><br>这段英文的大体意思是Genymotion安卓模拟器无法获得IP来运行虚拟机设备系统，让我们打开：VirtualBox虚拟机来检查设置。其实 Genymotion安卓模拟器运行是有宿主的，它的宿主就是：VirtualBox虚拟机，如果VirtualBox虚拟机设置有问 题，Genymotion就无法运行。<br>Error Unable to start the Genymotion virtual device.解决方法：<br>打开–Oracle VM VirtualBox–管理–全局设定–网络–点击下图所示的“+”号，增加一个新的虚拟网卡–再点击“+”号下面的毛笔图标编辑虚拟网卡–设置如下：</p>
-<p><img src="http://7xst88.com2.z0.glb.clouddn.com/Studio3-2.png" alt="错误提示"><br><img src="http://7xst88.com2.z0.glb.clouddn.com/Studio3-3.png" alt="错误提示"></p>
-<p><img src="http://7xst88.com2.z0.glb.clouddn.com/Studio3-4.png" alt="错误提示"></p>
-<p>设置好后在Oracle VM VirtualBox选择您的安卓系统–设置–网络–选择你新增加的虚拟网卡–确定即可。</p>
-<p><img src="http://7xst88.com2.z0.glb.clouddn.com/Studio3-5.png" alt="错误提示"></p>
+
+<h4 id="一个功能引发的问题"><a href="#一个功能引发的问题" class="headerlink" title="一个功能引发的问题"></a>一个功能引发的问题</h4><p><strong>问题描述：</strong><br>最近在开发通讯录项目的时候发现一个问题，通讯录的拨号界面放在一个Fragment中，Fragment存放在容器ViewPager中,如下图所示：<br><strong>需求如下：</strong><br>当在拨号界面输入号码后，拨号界面下方的listView会根据电话号码进行过滤电话号码，检索电话号码，当我们滑动listview时，会隐藏拨号键盘。<br><strong>问题来了：</strong><br>我们知道viewpager会对前后一个页面的内容进行预加载，也就是说加入我们现在的页面正好是2，那么页面1和3已经预加载好了，当我们点到1和3的界面并不会执行页面1和3中的oncreat和onresume等方法。所以现在的拨号界面想要再次唤出，只能点击界面1然后再点击页面3那是因为点击页面1的时候，页面3已经被销毁了，再次进入又被再次创建了，这显然并不是我们想要的效果，而我们的需求是无论页面3有没有被重新创建，我们都想唤出拨号界面；<br><img src="http://7xst88.com2.z0.glb.clouddn.com/setUserVisibleHint-01.png" alt="setUserVisibleHint"></p>
+<p><strong>解决方案如下：</strong><br>利用setUserVisibleHint方法，我们可以将唤出拨号见面的方法写在setUserVisibleHint()方法中；<br>运行程序，居然报错了<br><img src="http://7xst88.com2.z0.glb.clouddn.com/setUserVisibleHint-02.png" alt="setUserVisibleHint"><br>那是因为setUserVisibleHint()这是方法优先于oncreat()方法被调用，我们需要在setUserVisibleHint()对我们要隐藏的拨号界面进行一个判断，加入拨号见面不存在则不唤出（那是因为是第一次运行，自动回唤出拨号界面），加入存在则唤出，这样就解决了我们拨号界面的唤出问题！<br>为什么setUserVisibleHint()这个方法会优先于oncreat方法先执行？setUserVisibleHint()还有什么作用？</p>
+<h4 id="利用setUserVisibleHint-实现懒加载"><a href="#利用setUserVisibleHint-实现懒加载" class="headerlink" title="利用setUserVisibleHint()实现懒加载"></a>利用setUserVisibleHint()实现懒加载</h4><p>当viewpager+fragment 结合使用时，我们知道viewpager的特性是前后都会预加载1页，默认会同时存在3个页面，我们可以利用setUserVisibleHint()方法优先于oncreat()方法先执行的特点，我们当点击fragment当fragment可见的时候再去加载fragment的内容，实现viewpager懒加载；<br><strong>使用setUserVisibleHint()懒加载注意的问题</strong><br>因为setUserVisibleHint()是优先于Oncreat()方法执行的，所有如果给view赋值的需要先执行oncreat对控件进行初始化操作，假如报空指针可能是因为view没有初始化造成的。<br>setUserVisibleHint()方法在fragment从不可见到可见，从可见到不可见时都会调用，可以在此方法内部进行判断是什么阶段，是加载数据还是释放资源都可以实现！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @author LinQiang</span><br><span class="line"> *自定义fragment实现懒加载</span><br><span class="line"> */</span><br><span class="line">public class test extends Fragment&#123;</span><br><span class="line">    /**</span><br><span class="line">     * 这个变量标识fragment的状态</span><br><span class="line">     * 因为fragment被从不可见到可见，再从可见到不可见都会调用setUserVisibleHint方法</span><br><span class="line">     * */</span><br><span class="line">    boolean isVisible=false;</span><br><span class="line">    /**</span><br><span class="line">     * 这个变量的作用：setUserVisibleHint()优先于oncreatView先执行</span><br><span class="line">     * 我们必须等oncreatView加载完成view之后才能在view中对view进行赋值操作</span><br><span class="line">     * */</span><br><span class="line">    boolean isonViewLoadCompleted=false;</span><br><span class="line">    @Override</span><br><span class="line">    public View onCreateView(LayoutInflater inflater, ViewGroup container,</span><br><span class="line">            Bundle savedInstanceState) &#123;</span><br><span class="line">        /**</span><br><span class="line">         * 我们可以在这个方法里实现对view的初始化操作,假如fragment有view初始化操作，</span><br><span class="line">         * 可以等view初始化完成再去调用数据填充操作</span><br><span class="line">         * */</span><br><span class="line">        return super.onCreateView(inflater, container, savedInstanceState);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void setUserVisibleHint(boolean isVisibleToUser) &#123;</span><br><span class="line">        super.setUserVisibleHint(isVisibleToUser);</span><br><span class="line">        if(!isVisible)&#123;</span><br><span class="line">            visible();//当fragment从不可见到可见时调用此方法</span><br><span class="line">            isVisible=true;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            unVisible();//当fragment从可见到不可见时调用此方法</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    private void unVisible() &#123;</span><br><span class="line">        // 当fragment从不可见到可见时调用此方法</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    private void visible() &#123;</span><br><span class="line">        // 当fragment从可见到不可见时调用此方法</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </the>
       
     </div>
@@ -277,13 +272,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/05/02/03.Android Studio之模拟器报错/">(原创) Android Studio之模拟器报错</a></p>
+        <p><span>本文标题:</span><a href="/2016/05/09/Android中setUserVisibleHint-方法使用详解/">Android中setUserVisibleHint()方法使用详解</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Lin Qiang 的个人博客">Lin Qiang</a></p>
-        <p><span>发布时间:</span>2016年05月02日 - 13时00分</p>
-        <p><span>最后更新:</span>2016年05月07日 - 22时17分</p>
+        <p><span>发布时间:</span>2016年05月09日 - 22时35分</p>
+        <p><span>最后更新:</span>2016年05月09日 - 22时40分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/05/02/03.Android Studio之模拟器报错/" title="(原创) Android Studio之模拟器报错">http://www.codingnote.net/2016/05/02/03.Android Studio之模拟器报错/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/05/02/03.Android Studio之模拟器报错/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/05/09/Android中setUserVisibleHint-方法使用详解/" title="Android中setUserVisibleHint()方法使用详解">http://www.codingnote.net/2016/05/09/Android中setUserVisibleHint-方法使用详解/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/05/09/Android中setUserVisibleHint-方法使用详解/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -296,18 +291,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/05/02/Git(五)原理/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          (原创) Git(五)原理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/05/01/02.Android Studio入门教程02/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">(原创) Android Studio 入门教程之模拟器安装</div>
+    <a href="/2016/05/07/搭建github博客-十-之域名绑定-完结/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">(原创) 搭建github博客(十)之域名绑定(完结)</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -318,7 +304,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一个功能引发的问题"><span class="toc-number">1.</span> <span class="toc-text">一个功能引发的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#利用setUserVisibleHint-实现懒加载"><span class="toc-number">2.</span> <span class="toc-text">利用setUserVisibleHint()实现懒加载</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -380,7 +366,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/05/02/03.Android Studio之模拟器报错/" data-title="(原创) Android Studio之模拟器报错" data-url="http://www.codingnote.net/2016/05/02/03.Android Studio之模拟器报错/"></div>
+    <div class="ds-thread" data-thread-key="2016/05/09/Android中setUserVisibleHint-方法使用详解/" data-title="Android中setUserVisibleHint()方法使用详解" data-url="http://www.codingnote.net/2016/05/09/Android中setUserVisibleHint-方法使用详解/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -403,13 +389,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/05/02/Git(五)原理/" title="上一篇: (原创) Git(五)原理">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/05/01/02.Android Studio入门教程02/" title="下一篇: (原创) Android Studio 入门教程之模拟器安装">
+            <a href="/2016/05/07/搭建github博客-十-之域名绑定-完结/" title="下一篇: (原创) 搭建github博客(十)之域名绑定(完结)">
                 <i class="fa fa-angle-right"></i>
             </a>
         
