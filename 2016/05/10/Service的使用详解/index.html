@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>(原创) Service的使用详解 | CodingNote | by LQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="什么是Service，启动Service的三种方式，如何利用AIDL实现跨进程(APP)访问Service">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(原创) Service的使用详解">
+<meta property="og:url" content="http://www.codingnote.net/2016/05/10/Service的使用详解/index.html">
+<meta property="og:site_name" content="CodingNote | by LQ">
+<meta property="og:description" content="什么是Service，启动Service的三种方式，如何利用AIDL实现跨进程(APP)访问Service">
+<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Service-01.gif">
+<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Service-02.gif">
+<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Service-03.gif">
+<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Service-04.gif">
+<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/Service-05.gif">
+<meta property="og:updated_time" content="2016-05-10T14:50:42.027Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(原创) Service的使用详解">
+<meta name="twitter:description" content="什么是Service，启动Service的三种方式，如何利用AIDL实现跨进程(APP)访问Service">
+<meta name="twitter:image" content="http://7xst88.com2.z0.glb.clouddn.com/Service-01.gif">
+  
+    <link rel="alternative" href="/atom.xml" title="CodingNote | by LQ" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">Lin Qiang</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">学习是一种习惯，因为你要学的还有很多，不要停止你学习的脚步！</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="http://lqcoding.github.io">博客首页</a></li>
+                        
+                            <li><a href="/archives">所有文章</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/lqcoding" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/Service/" style="font-size: 10px;">Service</a> <a href="/tags/github/" style="font-size: 20px;">github</a> <a href="/tags/博客/" style="font-size: 20px;">博客</a> <a href="/tags/原理/" style="font-size: 10px;">原理</a> <a href="/tags/基础/" style="font-size: 15px;">基础</a> <a href="/tags/安装/" style="font-size: 10px;">安装</a> <a href="/tags/搭建/" style="font-size: 10px;">搭建</a> <a href="/tags/方法使用/" style="font-size: 10px;">方法使用</a> <a href="/tags/模拟器/" style="font-size: 10px;">模拟器</a> <a href="/tags/添加与修改/" style="font-size: 10px;">添加与修改</a> <a href="/tags/简介/" style="font-size: 10px;">简介</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Lin Qiang</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Lin Qiang</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">学习是一种习惯，因为你要学的还有很多，不要停止你学习的脚步！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="http://lqcoding.github.io">博客首页</a></li>
+                
+                    <li><a href="/archives">所有文章</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/lqcoding" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Service的使用详解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/10/Service的使用详解/" class="article-date">
+      <time datetime="2016-05-10T14:42:08.000Z" itemprop="datePublished">2016-05-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      (原创) Service的使用详解
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Service/">Service</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>什么是Service，启动Service的三种方式，如何利用AIDL实现跨进程(APP)访问Service</p>
+<a id="more"></a>
+<p><the rest="" of="" comments="" |="" 余下全文=""></the></p>
+<h3 id="Service-组件"><a href="#Service-组件" class="headerlink" title="Service 组件"></a>Service 组件</h3><p><strong>1.Service 是什么</strong></p>
+<ul>
+<li>Service 是Android 中的一个应用组件?(生命周期方法)</li>
+<li>Service 是Android 中的一个后台服务?(可以长时间运行于后台)</li>
+</ul>
+<p><strong>2.为什么启动Service执行耗时操作而不在activity启工作线程执行耗时操作呢？</strong><br>因为当activity工作于后台处于停止状态时，它所在进程的生命力就会比较薄弱，在内存不足时可能会被杀死。</p>
+<p><strong>在Android 中的进程可以分为如下几种类型</strong><br>1.前台进程(可见，可以与用户交互)<br>2.可见进程(可见，但不能与用户交互)<br>3.服务进程(后台有service在运行)<br>4.后台进程(没有service组件，所有的activity都处于停止状态)<br>5.空进程(没有任何组件在运行的进程)<br>以上进程的生命力，从高到低。</p>
+<p><strong>3.Android 中Activity与Service 交互的方式</strong><br>1.启动模式：这种方式activity不能直接与service进行交互，activity需要借助broadcast从service中获取数据<br>2.绑定模式：需要在service中准备一个IBinder接口的实现类，并将该对象作为onBind的返回值在activity 中需要一个ServiceConnection对象,它会有两个回调方法，在其中一个方法中获得service内onBind方法返回的IBinder对象,通过IBinder对象与Service进行交互<br>3.AIDL模式：AIDL的方式与Service交互，bind方式进行交互式有前提的,就是activity和service时处于同一个APP中（同一个进程）通过ALDL可以实现跨进程的调用，一个APP的activity可以调用另一个APP中的service(跨进程的通信的方式： 广播，contentprovider,AIDL)，进行ALDL跨进程调用，必须使用service的一个.aidl文件</p>
+<h4 id="一-启动模式"><a href="#一-启动模式" class="headerlink" title="一.启动模式"></a>一.启动模式</h4><p>启动模式：这种方式activity不能直接与service进行交互，activity需要借助broadcast从service中获取数据<br><strong>创建Service的两种方式</strong><br><strong>1.IDE工具生成，如下图：好处是不需要自己再清单配置文件中进行注册</strong><br><img src="http://7xst88.com2.z0.glb.clouddn.com/Service-01.gif" alt="service"><br><strong>2.新建一个类继承Service ,然后在清单配置文件中进行注册，注册如下：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;service</span><br><span class="line">    android:name=&quot;.MyService01&quot;</span><br><span class="line">    android:enabled=&quot;true&quot;</span><br><span class="line">    android:exported=&quot;true&quot; &gt;</span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>demo</strong>：activity通过启动的方式启动一个Service,Service每隔一秒获取一个系统时间，并通过广播发送出去，<br>activity如果想获得Service发出的数据需要注册一个广播接收者，接收Service发出的广播<br>Activity 代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    TextView tv;</span><br><span class="line">    MyReciver reciver;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        //初始化view</span><br><span class="line">        tv= (TextView) findViewById(R.id.textview01);</span><br><span class="line">    &#125;</span><br><span class="line">    //在此方法中注册广播接收者</span><br><span class="line">    @Override</span><br><span class="line">    protected void onResume() &#123;</span><br><span class="line">        super.onResume();</span><br><span class="line">        reciver= new MyReciver();</span><br><span class="line">        IntentFilter filter = new IntentFilter();</span><br><span class="line">        filter.addAction(&quot;com.myService.getTime&quot;);</span><br><span class="line">        registerReceiver(reciver,filter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //启动Service</span><br><span class="line">    public void startService(View v)&#123;</span><br><span class="line">        Intent intent = new Intent(this,MyService01.class);</span><br><span class="line">        startService(intent);</span><br><span class="line">    &#125;</span><br><span class="line">    //停止Service</span><br><span class="line">    public void stopService(View v)&#123;</span><br><span class="line">        Intent intent = new Intent(this,MyService01.class);</span><br><span class="line">        stopService(intent);</span><br><span class="line">        tv.setText(&quot;Service停止&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    //广播接收者 处理接收到的广播 并显示在view上</span><br><span class="line">    public class  MyReciver extends BroadcastReceiver&#123;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onReceive(Context context, Intent intent) &#123;</span><br><span class="line">            String action =intent.getAction();</span><br><span class="line">            if(&quot;com.myService.getTime&quot;.equals(action))&#123;</span><br><span class="line">                tv.setText(intent.getStringExtra(&quot;time&quot;));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Service 代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">public class MyService01 extends Service &#123;</span><br><span class="line">    //用来发消息</span><br><span class="line">    Handler handler= new Handler();</span><br><span class="line">    public MyService01() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    //获取系统时间</span><br><span class="line">    public String getServiceTime()&#123;</span><br><span class="line">        SimpleDateFormat sdf = new SimpleDateFormat(&quot;HH:mm:ss&quot;);</span><br><span class="line">        return  sdf.format(System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onStartCommand(Intent intent, int flags, int startId) &#123;</span><br><span class="line">        super.onCreate();</span><br><span class="line">        //发送延迟消息，每秒一次</span><br><span class="line">        handler.postDelayed(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                //发送广播</span><br><span class="line">                Intent intent = new Intent(&quot;com.myService.getTime&quot;);</span><br><span class="line">                intent.putExtra(&quot;time&quot;,getServiceTime());</span><br><span class="line">                sendBroadcast(intent);</span><br><span class="line">                //递归调用实现循环发送</span><br><span class="line">                handler.postDelayed(this,1000);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,1000);</span><br><span class="line"></span><br><span class="line"> //关于返回值 粘性</span><br><span class="line">        //START_STICKY Service被非正常kill 还会自动启动，但是不会重新传递Intent</span><br><span class="line">        //START_NOT_STICKY Service被非正常kill 还不会自动启动</span><br><span class="line">        //START_REDELIVER_INTENT Service被非正常kill 还会自动启动  同时重新传递Intent</span><br><span class="line">        //START_STICKY_COMPATIBILITY Service被非正常kill 不保证能正常启动</span><br><span class="line">        return START_REDELIVER_INTENT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onDestroy() &#123;</span><br><span class="line">        super.onDestroy();</span><br><span class="line">        //此方法销毁handle 否则即使关闭Service handler依然可以运行</span><br><span class="line">        handler.removeCallbacksAndMessages(null);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //此方法在绑定模式下使用</span><br><span class="line">    @Override</span><br><span class="line">    public IBinder onBind(Intent intent) &#123;</span><br><span class="line">        // TODO: Return the communication channel to the service.</span><br><span class="line">        throw new UnsupportedOperationException(&quot;Not yet implemented&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行效果：<br><img src="http://7xst88.com2.z0.glb.clouddn.com/Service-02.gif" alt="service"><br><strong>注意：</strong><br>1.Service不用一定要关闭<br>2.当一个循环的Handler绑定了Service时，关闭Service并不能关闭Handler ，需要在关闭Service的同时关闭Handler！</p>
+<h4 id="绑定模式"><a href="#绑定模式" class="headerlink" title="绑定模式"></a>绑定模式</h4><p>绑定模式：需要在service中准备一个IBinder接口的实现类，并将该对象作为onBind的返回值在activity 中需要一个ServiceConnection对象,它会有两个回调方法，在其中一个方法中获得service内onBind方法返回的IBinder对象,通过IBinder对象与Service进行交互<br>Activity 代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    ServiceConnection conn;</span><br><span class="line">    Handler handler;</span><br><span class="line">    MyService01.MyBinder binder;</span><br><span class="line">    TextView tv;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        tv= (TextView) findViewById(R.id.textview02);</span><br><span class="line">        handler =new Handler();</span><br><span class="line">        conn = new ServiceConnection() &#123;</span><br><span class="line">          //当绑定成功时执行此方法</span><br><span class="line">            @Override</span><br><span class="line">            public void onServiceConnected(ComponentName name, IBinder service) &#123;</span><br><span class="line">               //将返回的IBinder接口类型的对象强转为子类对象</span><br><span class="line">                binder = (MyService01.MyBinder) service;</span><br><span class="line">                //还是利用handler循环读取时间</span><br><span class="line">                handler.postDelayed(new Runnable() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void run() &#123;</span><br><span class="line">                        tv.setText(binder.getTime());</span><br><span class="line">                        handler.postDelayed(this,1000);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,1000);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onServiceDisconnected(ComponentName name) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    public  void bindStart(View v)&#123;</span><br><span class="line">        Intent intent = new Intent(this,MyService01.class);</span><br><span class="line">        bindService(intent,conn, Context.BIND_AUTO_CREATE);</span><br><span class="line">    &#125;</span><br><span class="line">    public void bindStop(View v)&#123;</span><br><span class="line">        unbindService(conn);</span><br><span class="line">        //手动关闭handler</span><br><span class="line">        handler.removeCallbacksAndMessages(null);</span><br><span class="line">        tv.setText(&quot;Service停止&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Service代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class MyService01 extends Service &#123;</span><br><span class="line">    public MyService01() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    //在这个方法中返回一个实现了IBinder接口的实现类对象</span><br><span class="line">    @Override</span><br><span class="line">    public IBinder onBind(Intent intent) &#123;</span><br><span class="line">        return new MyBinder();</span><br><span class="line">    &#125;</span><br><span class="line">    //新建类继承Binder类</span><br><span class="line">    public class  MyBinder extends Binder &#123;</span><br><span class="line">        //这个方法在activity那边进行获取</span><br><span class="line">        public String getTime()&#123;</span><br><span class="line">            return getServiceTime();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    //获取系统时间</span><br><span class="line">    public String getServiceTime()&#123;</span><br><span class="line">        SimpleDateFormat sdf = new SimpleDateFormat(&quot;hh:mm:ss&quot;);</span><br><span class="line">        return  sdf.format(System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>注意：</strong>绑定模式下如果没有执行解绑，将一直保持绑定状态</p>
+<h4 id="AIDL模式"><a href="#AIDL模式" class="headerlink" title="AIDL模式"></a>AIDL模式</h4><p>AIDL模式：AIDL的方式与Service交互，bind方式进行交互式有前提的,就是activity和service时处于同一个APP中（同一个进程）通过ALDL可以实现跨进程的调用，一个APP的activity可以调用另一个APP中的service(跨进程的通信的方式： 广播，contentprovider,AIDL)，进行ALDL跨进程调用，必须使用service的一个.aidl文件<br><strong>demo：</strong>利用AIDL实现跨APP的两个程序之间的通信，其中一个为provider一个为receiver<br><strong>第一步</strong><br>在provider的程序中创建一个AIDL文件,AIDL文件里面的内容就是一个接口，接口里面定义若干方法，注意接口和方法不能是public的 ，建议用IDE工具生成，在Servic中创建一个类继承AIDL中的接口实现其中的方法，并在onBind方法中将实现类的对象返回。</p>
+<p><strong>注意！</strong>在android studio 中使用AIDL文件在文件创建完成需要手动编译项目，把AIDL文件编译成.java文件，否则service中无法使用！<br>创建ALDL文件以及编译请看下图:<br><img src="http://7xst88.com2.z0.glb.clouddn.com/Service-03.gif" alt="service"></p>
+<p><strong>第二步</strong><br>在provider的程序配置文件中配置隐式action因为reciver程序想要访问provider程序只能隐式调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;service</span><br><span class="line">    android:name=&quot;.MyService&quot;</span><br><span class="line">    android:enabled=&quot;true&quot;</span><br><span class="line">    android:exported=&quot;true&quot; &gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=&quot;com.intent.getServiceTime2&quot;/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>第三步</strong><br>重新创建一个APP来访问这个程序，也就是receiver程序，将AIDL文件按照包结构原封不动的拷贝到新的APP中，依然运行build–&gt;make project 重新编译项目。<br><strong>注意：一定要相同的包结构，否则报错！</strong><br><img src="http://7xst88.com2.z0.glb.clouddn.com/Service-04.gif" alt="service"><br><strong>第四步</strong><br>在activity中获取对象启动服务<br>provider–service代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class MyService extends Service &#123;</span><br><span class="line">    public MyService() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public IBinder onBind(Intent intent) &#123;</span><br><span class="line">       return new MyBinder2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   public class MyBinder2 extends  IMyAidlInterface.Stub&#123;</span><br><span class="line"></span><br><span class="line">       @Override</span><br><span class="line">       public String getTime() throws RemoteException &#123;</span><br><span class="line">           return getServiveTime();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">    public String getServiveTime()&#123;</span><br><span class="line">        SimpleDateFormat sdf = new SimpleDateFormat(&quot;hh:mm:ss&quot;);</span><br><span class="line">        return sdf.format(System.currentTimeMillis());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>receiver-activity代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    TextView tv;</span><br><span class="line">    ServiceConnection conn;</span><br><span class="line">    Handler handler;</span><br><span class="line">    IMyAidlInterface ibinder;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        tv= (TextView) findViewById(R.id.textview03);</span><br><span class="line">        //利用Handler循环获取时间</span><br><span class="line">        handler = new Handler();</span><br><span class="line"></span><br><span class="line">        conn = new ServiceConnection() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onServiceConnected(ComponentName name, IBinder service) &#123;</span><br><span class="line">                //用这种方法获取另外APP中返回的IBinder对象</span><br><span class="line">                ibinder=IMyAidlInterface.Stub.asInterface(service);</span><br><span class="line">                handler.postDelayed(new Runnable() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void run() &#123;</span><br><span class="line">                        try &#123;</span><br><span class="line">                            tv.setText(ibinder.getTime());</span><br><span class="line">                        &#125; catch (RemoteException e) &#123;</span><br><span class="line">                            e.printStackTrace();</span><br><span class="line">                        &#125;</span><br><span class="line">                        handler.postDelayed(this,1000);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,1000);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onServiceDisconnected(ComponentName name) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    //启动跨进程的APP服务</span><br><span class="line">    public  void start(View v)&#123;</span><br><span class="line">        //这个action需要跟被访问的程序的action一致</span><br><span class="line">        Intent intent = new Intent(&quot;com.intent.getServiceTime2&quot;);</span><br><span class="line">        //绑定Service</span><br><span class="line">        bindService(intent,conn, Context.BIND_AUTO_CREATE);</span><br><span class="line">    &#125;</span><br><span class="line">    //停止跨进程的APP服务</span><br><span class="line">    public  void stop(View v )&#123;</span><br><span class="line">        //解绑Service</span><br><span class="line">        unbindService(conn);</span><br><span class="line">        //解绑Service的同时关闭handler</span><br><span class="line">        handler.removeCallbacksAndMessages(null);</span><br><span class="line">        tv.setText(&quot;服务停止&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>程序运行效果：</p>
+<p><img src="http://7xst88.com2.z0.glb.clouddn.com/Service-05.gif" alt="service"></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/05/10/Service的使用详解/">(原创) Service的使用详解</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Lin Qiang 的个人博客">Lin Qiang</a></p>
+        <p><span>发布时间:</span>2016年05月10日 - 22时42分</p>
+        <p><span>最后更新:</span>2016年05月10日 - 22时50分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/05/10/Service的使用详解/" title="(原创) Service的使用详解">http://www.codingnote.net/2016/05/10/Service的使用详解/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/05/10/Service的使用详解/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2016/05/09/Android中setUserVisibleHint-方法使用详解/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">(原创) Android中setUserVisibleHint()方法使用详解</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Service-组件"><span class="toc-number">1.</span> <span class="toc-text">Service 组件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一-启动模式"><span class="toc-number">1.1.</span> <span class="toc-text">一.启动模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#绑定模式"><span class="toc-number">1.2.</span> <span class="toc-text">绑定模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AIDL模式"><span class="toc-number">1.3.</span> <span class="toc-text">AIDL模式</span></a></li></ol></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/05/10/Service的使用详解/" data-title="(原创) Service的使用详解" data-url="http://www.codingnote.net/2016/05/10/Service的使用详解/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"null"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/05/09/Android中setUserVisibleHint-方法使用详解/" title="下一篇: (原创) Android中setUserVisibleHint()方法使用详解">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/05/10/Service的使用详解/">(原创) Service的使用详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/09/Android中setUserVisibleHint-方法使用详解/">(原创) Android中setUserVisibleHint()方法使用详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-十-之域名绑定-完结/">(原创) 搭建github博客(十)之域名绑定(完结)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-九-之deploy发布/">(原创) 搭建github博客(九)之deploy发布</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-八-之SSH配置/">(原创) 搭建github博客(八)之SSH配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-七-进阶之第一篇博客/">(原创) 搭建github博客(七)进阶之第一篇博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-六-进阶之安装Hexo/">(原创) 搭建github博客(六)进阶之安装Hexo</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-五-进阶之github模板/">(原创) 搭建github博客(五)进阶之github pages模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-四-准备工作之安装node-js和NPM/">(原创) 搭建github博客(四)准备工作之安装node.js和NPM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-三-准备工作之安装git/">(原创) 搭建github博客(三)准备工作之安装git</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客（二）准备工作之注册github账号/">(原创) 搭建github博客(二)准备工作之注册github账号</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客（一）之-唠嗑/">(原创) 搭建github博客(一)之初识github pages</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/Git(五)原理/">(原创) Git(五)原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/03.Android Studio之模拟器报错/">(原创) Android Studio之模拟器报错</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/02.Android Studio入门教程02/">(原创) Android Studio 入门教程之模拟器安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/01.Android Studio入门教程01/">(原创) Android Studio入门教程之常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/Git(四)添加与修改文件/">(原创) Git(四)添加与修改文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/Git(三)搭建本地仓库/">(原创) Git(三)搭建本地仓库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/Git(二)安装/">(原创) Git(二)安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/Git(一)简介/">(原创) Git(一)简介</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 Lin Qiang
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
