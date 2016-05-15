@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://7xst88.com1.z0.glb.clouddn.com/Android-Comment-04.gif">
 <meta property="og:image" content="http://7xst88.com1.z0.glb.clouddn.com/Android-Comment-05.gif">
 <meta property="og:image" content="http://7xst88.com1.z0.glb.clouddn.com/Android-Comment-06.gif">
-<meta property="og:updated_time" content="2016-05-12T15:13:52.828Z">
+<meta property="og:updated_time" content="2016-05-15T08:04:11.761Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="(原创) Android Studio 自定义注释&快速输入代码片段">
 <meta name="twitter:description" content="在android studio 中自定义注释模板 快速输入注释，自定义代码片段，快捷键快速输入代码片段">
@@ -267,7 +267,7 @@
 
 <h3 id="一-设置类创建时自动生成头部注释"><a href="#一-设置类创建时自动生成头部注释" class="headerlink" title="一.设置类创建时自动生成头部注释"></a>一.设置类创建时自动生成头部注释</h3><p>比如每次创建一个类自动在头部生成一个这样的头部,作为一个类的说明信息<br><img src="http://7xst88.com1.z0.glb.clouddn.com/Android-Comment-01.png" alt="comment"><br>设置方法：<br>点击设置—&gt;Editor–&gt;File and code Templates –&gt;Includes—&gt;File Header<br>代码：其中时间是自动获取的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 作者：author</span><br><span class="line"> * 时间：$&#123;DATE&#125;:$&#123;TIME&#125;</span><br><span class="line"> * 邮箱：</span><br><span class="line"> * 说明：</span><br><span class="line"> */</span><br></pre></td></tr></table></figure></p>
 <p>设置步骤以及效果：<br><img src="http://7xst88.com1.z0.glb.clouddn.com/Android-Comment-02.gif" alt="comment"></p>
-<h3 id="二-设置快速生成方法注释的两种方式"><a href="#二-设置快速生成方法注释的两种方式" class="headerlink" title="二.设置快速生成方法注释的两种方式"></a>二.设置快速生成方法注释的两种方式</h3><h4 id="1-在studio-中自定义模板"><a href="#1-在studio-中自定义模板" class="headerlink" title="1.在studio 中自定义模板"></a>1.在studio 中自定义模板</h4><p>在studio中自定义注释模板有一定的局限性，目前已知的studio的模板只能获取的时间，并不能获取返回值以及参数等信息，关于系统自带的模板到底能不能获取到返回值以及参数等信息因为网上资料有限，目前还不是太清楚。<br>点击设置—&gt;Editor–&gt;live Templates –&gt;点击+号 先创建1个组 再创建一个模板<br>编辑注释内容–&gt;声明作用域<br>步骤如下：<br><img src="http://7xst88.com1.z0.glb.clouddn.com/Android-Comment-03.gif" alt="comment"><br>运行方式：在方法上面，输入你定义的abbreviation 就是cnn 按回车即可：<br><img src="http://7xst88.com1.z0.glb.clouddn.com/Android-Comment-04.gif" alt="comment"></p>
+<h3 id="二-设置快速生成方法注释的两种方式"><a href="#二-设置快速生成方法注释的两种方式" class="headerlink" title="二.设置快速生成方法注释的两种方式"></a>二.设置快速生成方法注释的两种方式</h3><h4 id="1-在studio-中自定义模板"><a href="#1-在studio-中自定义模板" class="headerlink" title="1.在studio 中自定义模板"></a>1.在studio 中自定义模板</h4><p>在studio中自定义注释模板有一定的局限性，目前已知的studio的模板只能获取的时间，并不能获取返回值以及参数等信息，那是因为获取方法名的方法运行在方法内部才会生效,运行在方法外部是不能生效.<br>所以在方法外部用studio自定义模板的方式有一定的局限性<br>点击设置—&gt;Editor–&gt;live Templates –&gt;点击+号 先创建1个组 再创建一个模板<br>编辑注释内容–&gt;声明作用域<br>步骤如下：<br><img src="http://7xst88.com1.z0.glb.clouddn.com/Android-Comment-03.gif" alt="comment"><br>运行方式：在方法上面，输入你定义的abbreviation 就是cnn 按回车即可：<br><img src="http://7xst88.com1.z0.glb.clouddn.com/Android-Comment-04.gif" alt="comment"></p>
 <h4 id="2-javaDoc自动生成注释"><a href="#2-javaDoc自动生成注释" class="headerlink" title="2.javaDoc自动生成注释"></a>2.javaDoc自动生成注释</h4><p>如果我们想获取到方法名，参数返回值的信息，想让这些信息全部自动生成的注释里面的话，我们可以借助插件JavaDoc实现，安装插件javaDoc 安装完之后重启studio。<br>在方法上面输入快捷键 alt+ctrl+shift+G 即可自动生成注释，或者按alt+insert调出对话框，手动选择。<br><img src="http://7xst88.com1.z0.glb.clouddn.com/Android-Comment-05.gif" alt="comment"></p>
 <h3 id="3-快速输入代码片段"><a href="#3-快速输入代码片段" class="headerlink" title="3.快速输入代码片段"></a>3.快速输入代码片段</h3><p>当我们知道studio可以自定义模板通过快捷键快速输入的时候，我们就想快速输入代码片段可以实现吗？事实是可以的，如果有经常使用的代码，你不必每次输入，完全可以定义成模板，每次快捷键快速输入就可以了，下面是例子：还是刚才那个模板我把注释换成了一个方法，快捷键cnn可以快速输入这个方法。<br><img src="http://7xst88.com1.z0.glb.clouddn.com/Android-Comment-06.gif" alt="comment"></p>
 <h3 id="再说一句"><a href="#再说一句" class="headerlink" title="再说一句"></a>再说一句</h3><p>如果你对JavaDoc生成的模板如果还不满意，你还可以修改JavaDoc的模板，具体修改位置是 设置–&gt;other—&gt;javadoc<br>里面有对应的模板，模板语言使用的是一种 freemarker的标记语言，如果有感兴趣的同学可自己开发扩展；<br>javadoc网址：<a href="https://github.com/setial/intellij-javadocs/wiki" target="_blank" rel="external">https://github.com/setial/intellij-javadocs/wiki</a></p>
@@ -282,7 +282,7 @@
         <p><span>本文标题:</span><a href="/2016/05/12/Android-Studio-自定义注释-快速输入代码片段/">(原创) Android Studio 自定义注释&amp;快速输入代码片段</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Lin Qiang 的个人博客">Lin Qiang</a></p>
         <p><span>发布时间:</span>2016年05月12日 - 23时06分</p>
-        <p><span>最后更新:</span>2016年05月12日 - 23时13分</p>
+        <p><span>最后更新:</span>2016年05月15日 - 16时04分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/05/12/Android-Studio-自定义注释-快速输入代码片段/" title="(原创) Android Studio 自定义注释&amp;快速输入代码片段">http://www.codingnote.net/2016/05/12/Android-Studio-自定义注释-快速输入代码片段/</a>
             <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/05/12/Android-Studio-自定义注释-快速输入代码片段/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
