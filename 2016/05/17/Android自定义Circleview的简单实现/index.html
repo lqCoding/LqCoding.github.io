@@ -3,23 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>(原创) 搭建github博客(三)准备工作之安装git | CodingNote | by LQ</title>
+  <title>(原创) Android自定义Circleview的简单实现 | CodingNote | by LQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="搭建github博客之如何安装git">
+  <meta name="description" content="如何实现自定义View一直是Android中比较神奇也是比较难得知识点,本篇博客带你以最简单的方式实现圆形circleView">
 <meta property="og:type" content="article">
-<meta property="og:title" content="(原创) 搭建github博客(三)准备工作之安装git">
-<meta property="og:url" content="http://www.codingnote.net/2016/05/07/搭建github博客-三-准备工作之安装git/index.html">
+<meta property="og:title" content="(原创) Android自定义Circleview的简单实现">
+<meta property="og:url" content="http://www.codingnote.net/2016/05/17/Android自定义Circleview的简单实现/index.html">
 <meta property="og:site_name" content="CodingNote | by LQ">
-<meta property="og:description" content="搭建github博客之如何安装git">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/github03-1.jpg">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/github03-2.jpg">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/github03-3.png">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/github03-4.png">
-<meta property="og:updated_time" content="2016-05-07T14:19:26.751Z">
+<meta property="og:description" content="如何实现自定义View一直是Android中比较神奇也是比较难得知识点,本篇博客带你以最简单的方式实现圆形circleView">
+<meta property="og:updated_time" content="2016-05-17T14:42:26.214Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="(原创) 搭建github博客(三)准备工作之安装git">
-<meta name="twitter:description" content="搭建github博客之如何安装git">
-<meta name="twitter:image" content="http://7xst88.com2.z0.glb.clouddn.com/github03-1.jpg">
+<meta name="twitter:title" content="(原创) Android自定义Circleview的简单实现">
+<meta name="twitter:description" content="如何实现自定义View一直是Android中比较神奇也是比较难得知识点,本篇博客带你以最简单的方式实现圆形circleView">
   
     <link rel="alternative" href="/atom.xml" title="CodingNote | by LQ" type="application/atom+xml">
   
@@ -216,11 +211,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-搭建github博客-三-准备工作之安装git" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android自定义Circleview的简单实现" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/05/07/搭建github博客-三-准备工作之安装git/" class="article-date">
-      <time datetime="2016-05-07T13:13:57.000Z" itemprop="datePublished">2016-05-07</time>
+      <a href="/2016/05/17/Android自定义Circleview的简单实现/" class="article-date">
+      <time datetime="2016-05-17T14:40:57.000Z" itemprop="datePublished">2016-05-17</time>
 </a>
     </div>
   
@@ -233,7 +228,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      (原创) 搭建github博客(三)准备工作之安装git
+      (原创) Android自定义Circleview的简单实现
     </h1>
   
 
@@ -242,13 +237,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/github/">github</a>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客/">博客</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CustomView/">CustomView</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -258,13 +253,24 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>搭建github博客之如何安装git</p>
+        <p>如何实现自定义View一直是Android中比较神奇也是比较难得知识点,本篇博客带你以最简单的方式实现圆形circleView</p>
 <a id="more"></a>
 <the rest="" of="" comments="" |="" 余下全文="">
 
 
-<p>Git安装（for Windows）：</p>
-<p>进入git官网：<a href="https://git-scm.com/" target="_blank" rel="external">https://git-scm.com/</a><br>点击下载：<br><img src="http://7xst88.com2.z0.glb.clouddn.com/github03-1.jpg" alt="git"><br>下载完成后点击安装，安装完成后的样子滴：（git没有界面 只有dos命令窗口，后续会为大家介绍带有窗口的git管理工具）<br><img src="http://7xst88.com2.z0.glb.clouddn.com/github03-2.jpg" alt="git"><br>点击git cmd 运行：<br> <img src="http://7xst88.com2.z0.glb.clouddn.com/github03-3.png" alt="git"><br>测试：<br>输入: git –version<br> <img src="http://7xst88.com2.z0.glb.clouddn.com/github03-4.png" alt="git"><br>git 安装成功！ </p>
+<p>如何实现自定义View一直是Android中比较神奇也是比较难得知识点.自定义view的步骤大致如下:</p>
+<ul>
+<li>1.自定义类继承view </li>
+<li>2.重写onMeasure()方法,这个方法对view的尺寸进行测量(可以不重写)</li>
+<li>3.重写onLayout()方法,这个方法确定子view如何摆放(可以不重写)</li>
+<li>4.重写onDraw()方法,真正实现绘图的方法(必须重写)</li>
+<li>5.自定义属性文件attrs.xml</li>
+<li>6.在布局文件中使用自定义view 并引入属性文件</li>
+</ul>
+<p>今天讲讲怎么以最简单的方式简单实现一个CircleView.<br>实现原理:自定义view继承ImageView(避免写onDraw方法),并重写setImagetBitmap()或者setImageResouce() 取决于你将以哪种方式给imageview 进行赋值.<br>在setImageBitmap方法中将本来方形的图片改变成圆形的再赋值给ImageView.<br>自定义CiecleView 的代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* 作者：Linqiang</span><br><span class="line">* 时间：2016/5/16:9:17</span><br><span class="line">* 邮箱: linqiang2010@outlook.com</span><br><span class="line">* 说明：自定义CircleView 圆形ImageView</span><br><span class="line">*/</span><br><span class="line">public class CircleView extends ImageView&#123;</span><br><span class="line">//存储自定义属性 这两个参数是给圆描边的 可选参数</span><br><span class="line">int borderWidth ;//描边的宽度</span><br><span class="line">int borderColor;//描边的颜色</span><br><span class="line">//系统通过布局文件反射创建的对象调用的是双参数的构造器 第二个参数:属性集</span><br><span class="line">public CircleView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">super(context, attrs);</span><br><span class="line">//从布局文件中获取自定义的参数值,从所有的属性中提取需要的属性集合 属性定义在attrs 文件中</span><br><span class="line">TypedArray t = context.obtainStyledAttributes(attrs,R.styleable.CircleView);</span><br><span class="line">//获取属性:第二个参数指定默认值(如果在xml文件中不定义此属性则给默认值)</span><br><span class="line">borderWidth=t.getDimensionPixelSize(R.styleable.CircleView_border_width,0);</span><br><span class="line">borderColor=t.getColor(R.styleable.CircleView_border_color, Color.WHITE);</span><br><span class="line">//回收资源</span><br><span class="line">t.recycle();</span><br><span class="line">&#125;</span><br><span class="line">//重写此方法将传入的图片改变成圆的 达到圆形ImageView的效果</span><br><span class="line">@Override</span><br><span class="line">public void setImageBitmap(Bitmap bm) &#123;</span><br><span class="line">//将方的图片 换成圆的图片</span><br><span class="line">//创建bitmap</span><br><span class="line">Bitmap bitmap = Bitmap.createBitmap(bm.getWidth(),bm.getHeight(), Bitmap.Config.ARGB_8888);</span><br><span class="line">Canvas canvas = new Canvas(bitmap);</span><br><span class="line">//抗锯齿效果</span><br><span class="line">Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);</span><br><span class="line">paint.setColor(Color.BLACK);</span><br><span class="line">//取较小的值</span><br><span class="line">float radius = Math.min(bm.getWidth(),bm.getHeight())/2;</span><br><span class="line">canvas.drawCircle(bm.getWidth()/2,bm.getHeight()/2,radius,paint);</span><br><span class="line">paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));</span><br><span class="line">canvas.drawBitmap(bm, 0, 0,paint);</span><br><span class="line">//让图像尽量的居中显示,不拉伸</span><br><span class="line">setScaleType(ScaleType.FIT_CENTER);</span><br><span class="line">//关于显示类型,如果画出来的图像是方的 可以用FIT_CENTER参数,使用center可能有问题</span><br><span class="line">//因为如果是图像比imageview 大 可能导致效果出不来</span><br><span class="line">//画白边(换白边的属性imageView本来没有 所以才需要自定义属性去实现)</span><br><span class="line">paint.setStyle(Paint.Style.STROKE);</span><br><span class="line">paint.setStrokeWidth(borderWidth);</span><br><span class="line">paint.setColor(borderColor);</span><br><span class="line">canvas.drawCircle(bm.getWidth()/2,bm.getHeight()/2,radius-2,paint);</span><br><span class="line">super.setImageBitmap(bitmap);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>attrs.xml 代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line">&lt;declare-styleable name=&quot;CircleView&quot;&gt;</span><br><span class="line">&lt;!--attrs中属性的类型--&gt;</span><br><span class="line">&lt;!--dimension 尺寸 color 颜色 string 字符串 reference引用 Boolean integer float小数 fraction分数--&gt;</span><br><span class="line">&lt;attr name=&quot;border_width&quot; format=&quot;dimension&quot;&gt;&lt;/attr&gt;</span><br><span class="line">&lt;attr name=&quot;border_color&quot; format=&quot;color&quot;&gt;&lt;/attr&gt;</span><br><span class="line">&lt;/declare-styleable&gt;</span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure></p>
+<p>activity.xml 代码:<br><strong>注意:</strong>在布局文件中使用自定义view,必须是view所在的项目包名+空间的名的形式使用.<br><strong>引用attrs属性文件</strong>:需要在布局文件的根布局中引入,引入方法在Eclipse和studio环境中略有不同<br>Eclipse中:<br>“xmlns:android=”<a href="http://schemas.android.com/apk/res/+项目包名" target="_blank" rel="external">http://schemas.android.com/apk/res/+项目包名</a>“ 项目包名可以在Manifast中文件中package属性中查看.<br>studio中:<br>xmlns:app=”<a href="http://schemas.android.com/apk/res-auto" target="_blank" rel="external">http://schemas.android.com/apk/res-auto</a>  并不需要指定具体路径,studio会自动寻找</p>
+<p>其中app 是自定义名称,使用方法类似Android: 直接app:再输入你在attrs文件中定义的属性即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout</span><br><span class="line">xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">android:layout_width=&quot;match_parent&quot;</span><br><span class="line">android:layout_height=&quot;match_parent&quot;</span><br><span class="line">android:fitsSystemWindows=&quot;true&quot;</span><br><span class="line">tools:context=&quot;.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;com.example.xxxx.customview.CircleView</span><br><span class="line">android:layout_width=&quot;200dp&quot;</span><br><span class="line">android:layout_height=&quot;200dp&quot;</span><br><span class="line">android:id=&quot;@+id/view&quot;</span><br><span class="line">app:border_color=&quot;#ffff0000&quot;</span><br><span class="line">app:border_width=&quot;2dp&quot;</span><br><span class="line">/&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
 </the>
       
     </div>
@@ -273,13 +279,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/05/07/搭建github博客-三-准备工作之安装git/">(原创) 搭建github博客(三)准备工作之安装git</a></p>
+        <p><span>本文标题:</span><a href="/2016/05/17/Android自定义Circleview的简单实现/">(原创) Android自定义Circleview的简单实现</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Lin Qiang 的个人博客">Lin Qiang</a></p>
-        <p><span>发布时间:</span>2016年05月07日 - 21时13分</p>
-        <p><span>最后更新:</span>2016年05月07日 - 22时19分</p>
+        <p><span>发布时间:</span>2016年05月17日 - 22时40分</p>
+        <p><span>最后更新:</span>2016年05月17日 - 22时42分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/05/07/搭建github博客-三-准备工作之安装git/" title="(原创) 搭建github博客(三)准备工作之安装git">http://www.codingnote.net/2016/05/07/搭建github博客-三-准备工作之安装git/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/05/07/搭建github博客-三-准备工作之安装git/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/05/17/Android自定义Circleview的简单实现/" title="(原创) Android自定义Circleview的简单实现">http://www.codingnote.net/2016/05/17/Android自定义Circleview的简单实现/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/05/17/Android自定义Circleview的简单实现/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -292,18 +298,18 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/05/07/搭建github博客-四-准备工作之安装node-js和NPM/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/05/17/Android-Studio中如何导入和使用第三方开源库/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          (原创) 搭建github博客(四)准备工作之安装node.js和NPM
+          (原创)Android Studio中如何导入和使用第三方开源库
         
       </div>
     </a>
   
   
-    <a href="/2016/05/07/搭建github博客（二）准备工作之注册github账号/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">(原创) 搭建github博客(二)准备工作之注册github账号</div>
+    <a href="/2016/05/12/Android-Studio-自定义注释-快速输入代码片段/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">(原创) Android Studio 自定义注释&amp;快速输入代码片段</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -376,7 +382,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/05/07/搭建github博客-三-准备工作之安装git/" data-title="(原创) 搭建github博客(三)准备工作之安装git" data-url="http://www.codingnote.net/2016/05/07/搭建github博客-三-准备工作之安装git/"></div>
+    <div class="ds-thread" data-thread-key="2016/05/17/Android自定义Circleview的简单实现/" data-title="(原创) Android自定义Circleview的简单实现" data-url="http://www.codingnote.net/2016/05/17/Android自定义Circleview的简单实现/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -399,13 +405,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/05/07/搭建github博客-四-准备工作之安装node-js和NPM/" title="上一篇: (原创) 搭建github博客(四)准备工作之安装node.js和NPM">
+            <a href="/2016/05/17/Android-Studio中如何导入和使用第三方开源库/" title="上一篇: (原创)Android Studio中如何导入和使用第三方开源库">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/05/07/搭建github博客（二）准备工作之注册github账号/" title="下一篇: (原创) 搭建github博客(二)准备工作之注册github账号">
+            <a href="/2016/05/12/Android-Studio-自定义注释-快速输入代码片段/" title="下一篇: (原创) Android Studio 自定义注释&amp;快速输入代码片段">
                 <i class="fa fa-angle-right"></i>
             </a>
         

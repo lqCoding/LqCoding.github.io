@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>(原创) Android批量加载网络图片存在的问题及简单实现 | CodingNote | by LQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本片文章介绍ImageLoader的简单实现原理,如何从网络中批量获取图像?如果解决从网络中获取图像可能产生的内存溢出问题,解决缓存问题.希望能对初学者提供帮助.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(原创) Android批量加载网络图片存在的问题及简单实现">
+<meta property="og:url" content="http://www.codingnote.net/2016/05/17/Android批量加载网络图片存在的问题及简单实现/index.html">
+<meta property="og:site_name" content="CodingNote | by LQ">
+<meta property="og:description" content="本片文章介绍ImageLoader的简单实现原理,如何从网络中批量获取图像?如果解决从网络中获取图像可能产生的内存溢出问题,解决缓存问题.希望能对初学者提供帮助.">
+<meta property="og:image" content="http://7xst88.com1.z0.glb.clouddn.com/Android_ImageLoader-01.gif">
+<meta property="og:image" content="http://7xst88.com1.z0.glb.clouddn.com/Android_ImageLoader-02.png">
+<meta property="og:updated_time" content="2016-05-17T14:53:00.732Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(原创) Android批量加载网络图片存在的问题及简单实现">
+<meta name="twitter:description" content="本片文章介绍ImageLoader的简单实现原理,如何从网络中批量获取图像?如果解决从网络中获取图像可能产生的内存溢出问题,解决缓存问题.希望能对初学者提供帮助.">
+<meta name="twitter:image" content="http://7xst88.com1.z0.glb.clouddn.com/Android_ImageLoader-01.gif">
+  
+    <link rel="alternative" href="/atom.xml" title="CodingNote | by LQ" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet" />
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">Lin Qiang</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">学习是一种习惯，因为你要学的还有很多，不要停止你学习的脚步！</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="http://lqcoding.github.io">博客首页</a></li>
+                        
+                            <li><a href="/archives">所有文章</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/lqcoding" title="github">github</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Android/" style="font-size: 16.67px;">Android</a> <a href="/tags/Android-Studio/" style="font-size: 10px;">Android Studio</a> <a href="/tags/CustomView/" style="font-size: 10px;">CustomView</a> <a href="/tags/GitHub/" style="font-size: 10px;">GitHub</a> <a href="/tags/Service/" style="font-size: 10px;">Service</a> <a href="/tags/github/" style="font-size: 20px;">github</a> <a href="/tags/net/" style="font-size: 10px;">net</a> <a href="/tags/博客/" style="font-size: 20px;">博客</a> <a href="/tags/原理/" style="font-size: 10px;">原理</a> <a href="/tags/基础/" style="font-size: 13.33px;">基础</a> <a href="/tags/安装/" style="font-size: 10px;">安装</a> <a href="/tags/快捷键/" style="font-size: 10px;">快捷键</a> <a href="/tags/搭建/" style="font-size: 10px;">搭建</a> <a href="/tags/方法使用/" style="font-size: 10px;">方法使用</a> <a href="/tags/注释/" style="font-size: 10px;">注释</a> <a href="/tags/添加与修改/" style="font-size: 10px;">添加与修改</a> <a href="/tags/简介/" style="font-size: 10px;">简介</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://MOxFIVE.github.io/">MOxFIVE</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.vsay.cn/">DoubleV</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ccwebsite.com/">兮兮</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.dandyweng.com/">翁天信</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.plqblog.com/views/index.php">潘利强</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.hankin.cn/">hankin</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.waydrow.com/">waydrow</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">纯海迷、爱运动、爱交友、爱旅行、喜欢接触新鲜事物、迎接新的挑战，更爱游离于错综复杂的编码与逻辑中</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Lin Qiang</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Lin Qiang</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">学习是一种习惯，因为你要学的还有很多，不要停止你学习的脚步！</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="http://lqcoding.github.io">博客首页</a></li>
+                
+                    <li><a href="/archives">所有文章</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="github" target="_blank" href="https://github.com/lqcoding" title="github">github</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-Android批量加载网络图片存在的问题及简单实现" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/17/Android批量加载网络图片存在的问题及简单实现/" class="article-date">
+      <time datetime="2016-05-17T14:49:27.000Z" itemprop="datePublished">2016-05-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      (原创) Android批量加载网络图片存在的问题及简单实现
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/net/">net</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>本片文章介绍ImageLoader的简单实现原理,如何从网络中批量获取图像?<br>如果解决从网络中获取图像可能产生的内存溢出问题,解决缓存问题.希望能对初学者提供帮助.</p>
+<a id="more"></a>
+<the rest="" of="" comments="" |="" 余下全文="">
+
+<h3 id="Android批量加载网络图片存在的问题及简单实现"><a href="#Android批量加载网络图片存在的问题及简单实现" class="headerlink" title="Android批量加载网络图片存在的问题及简单实现"></a>Android批量加载网络图片存在的问题及简单实现</h3><p>本片文章介绍ImageLoader的简单实现原理,如何从网络中批量获取图像?<br>如果解决从网络中获取图像可能产生的内存溢出问题,解决缓存问题.希望能对初学者提供帮助.<br>技术&amp;知识点:</p>
+<ul>
+<li>HttpUrlConnection </li>
+<li>队列</li>
+<li>内存缓存LruCache</li>
+<li>磁盘缓存 DiskLruCache</li>
+<li>Handler</li>
+<li>线程池</li>
+<li>MD5</li>
+</ul>
+<p>以下是产生的问题以及问题分析及其解决方案:<br><strong>项目需求:</strong><br>ListView +httpUrlConnection从网络中获取图片,并将下载到的图片显示在ImageView中<br><strong>原始实现:</strong><br>启动异步任务从网络中下载图片,当图片下载完成,更新ImageView中的图片.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public class ImageUtil &#123;</span><br><span class="line">   public static void loadImage(final String path, final ImageView iv)&#123;</span><br><span class="line">        new AsyncTask&lt;Void,Void,Bitmap&gt;()&#123;</span><br><span class="line">            @Override</span><br><span class="line">            protected Bitmap doInBackground(Void... params) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    URL url = new URL(path);</span><br><span class="line">                    HttpURLConnection con = (HttpURLConnection) url.openConnection();</span><br><span class="line">                    con.setDoInput(true);</span><br><span class="line">                    con.setRequestMethod(&quot;GET&quot;);</span><br><span class="line">                    con.connect();</span><br><span class="line">                    InputStream in = con.getInputStream();</span><br><span class="line">                    Bitmap bitmap = BitmapFactory.decodeStream(in);</span><br><span class="line">                    in.close();</span><br><span class="line">                    return  bitmap;</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            protected void onPostExecute(Bitmap bitmap) &#123;</span><br><span class="line">                super.onPostExecute(bitmap);</span><br><span class="line">                //对返回的图像判断是否为空</span><br><span class="line">                if(bitmap==null)&#123;</span><br><span class="line">                    //如果为空则显示默认的图片</span><br><span class="line">                    iv.setImageResource(R.drawable.cover_default);</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    //如果不为空则显示图片</span><br><span class="line">                    iv.setImageBitmap(bitmap);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行后的效果如下:<br><img src="http://7xst88.com1.z0.glb.clouddn.com/Android_ImageLoader-01.gif" alt="ImageLoader"><br><strong>这种简单异步图片加载出现的问题以及问题分析:</strong></p>
+<ul>
+<li>1.随着ListView滚动，后台会启动大量的异步任务，影响程序的流畅,因为每个listview的重用都会发起下载任务</li>
+<li>2.如果下载的图像太大可能存在内存溢出的风险</li>
+<li>3.每次都从网络获取会造成速度太慢,应该第一次从网上获取,以后从内存或者缓存中获取</li>
+<li>4.ListView的item复用机制导致的图片加载的“动画”效果,那是因为滑动listview,每次listview都会重新下载 图片,会产生GIF的图片效果</li>
+</ul>
+<p><strong>解决方案:</strong></p>
+<ul>
+<li>1.对于同时启动大量的异步任务,解决方案是每次item发起的任务都存在一个任务队列中,利用handler监听,当任务队列中有任务时,通知线程池启动下载任务,线程池下载完成通知UI线程更新ImageVIew,这么做的好处是显示同时启动的下载任务数,提供程序流畅度</li>
+<li>2.对于可能产生的OOM问题,是每次下载图像之前先获取图像的大小,如果图像太大,对图像进行压缩,否则直接下载</li>
+<li>3.对于每次都从网络中获取图像的问题,利用内存缓存+磁盘缓存实现,每次下载之前先检查内存和磁盘中是否存在,不存在则下载,存在则直接显示</li>
+<li>4.对于每次Item中图片”动画的效果”,产生的原因如下,因为每个图片的加载都有一定的耗时,当快速上下滑动时,一个Item可能发起多个请求,应当对返回的图片加以判断,判断是不是最后一次请求的,如果不是最后一次请求的则不加载.减少图片更换.</li>
+</ul>
+<p>流程图:<br><img src="http://7xst88.com1.z0.glb.clouddn.com/Android_ImageLoader-02.png" alt="ImageLoader"></p>
+<p>更新后的ImageLoader类代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 作者：Linqiang</span><br><span class="line"> * 时间：2016/5/17:11:17</span><br><span class="line"> * 邮箱: linqiang2010@outlook.com</span><br><span class="line"> * 说明：图片加载工具类:使用内存缓存,异步,多线程,MD5,图片压缩</span><br><span class="line"> */</span><br><span class="line">public class ImageLoader &#123;</span><br><span class="line">    public static final int LOAD_FINISH=101;</span><br><span class="line">    public static final int NEW_TASK=102;</span><br><span class="line">    //线程池中线程的数量 线程数应该与设备中CPU的核数相同(将任务队列的任务放在线程池中)</span><br><span class="line">    public  static  int Thread_Count;</span><br><span class="line">    //上下文</span><br><span class="line">    public  static Context c;</span><br><span class="line">    //内存缓存</span><br><span class="line">    public static LruCache&lt;String,Bitmap&gt; MemreyCache;</span><br><span class="line">    //任务队列 将下载的任务放在任务队列中 双向任务队列可扩展 可根据业务选择先进先出还是后进先出</span><br><span class="line">    public  static LinkedBlockingDeque&lt;Runnable&gt; TaskQueue;</span><br><span class="line">    //线程池</span><br><span class="line">    public  static ExecutorService exec;</span><br><span class="line">    //任务完成后刷新的UIHandler  UIhandler,工作线程取得的图片无法在主线程刷新UI,所以需要一个运行在主线程的Handler</span><br><span class="line">    public static Handler uiHandler;</span><br><span class="line">    //从任务队列中取任务的handler 这是运行在工作线程的Handler,通知线程池启动下载任务时使用</span><br><span class="line">    public static Handler pollHandler;</span><br><span class="line">    //因为工作线程的Handle无法单独存在  需要一个工作线程盛放工作线程Handler</span><br><span class="line">    public static Thread pollThread;</span><br><span class="line">    //磁盘缓存</span><br><span class="line">    public  static DiskLruCache diskCache;</span><br><span class="line">    //标识的作用,用来确保imageloader只进行一次初始化</span><br><span class="line">    public  static  boolean isFirstTime=true;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Init.</span><br><span class="line">     * 初始化所有属性的值</span><br><span class="line">     *</span><br><span class="line">     * @param context the context</span><br><span class="line">     */</span><br><span class="line">    public  static  void init(Context context)&#123;</span><br><span class="line">        //如果是第一次进来则初始化</span><br><span class="line">        if(!isFirstTime)return;</span><br><span class="line">        c=context;</span><br><span class="line">        //获取手机中CPU核心数</span><br><span class="line">        Thread_Count=getNumberOfCores();</span><br><span class="line">        //取程序的最大内存的8分之一作为图片的内存缓存 并重写方法计算图片尺寸</span><br><span class="line">        MemreyCache = new LruCache&lt;String,Bitmap&gt;((int) (Runtime.getRuntime().maxMemory()/8))&#123;</span><br><span class="line">            @Override</span><br><span class="line">            protected int sizeOf(String key, Bitmap value) &#123;</span><br><span class="line">                return value.getHeight()*value.getRowBytes();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        //初始化磁盘缓存: 四个参数:存储路径,版本号,一个key对应几个value,空间大小</span><br><span class="line">        try &#123;</span><br><span class="line">            diskCache=DiskLruCache.open(getFilePath(),getAppVersion(),1,1024*1024*10);</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        //初始化任务队列</span><br><span class="line">        TaskQueue=new LinkedBlockingDeque&lt;Runnable&gt;();</span><br><span class="line">        //初始化线程池</span><br><span class="line">        exec= Executors.newFixedThreadPool(Thread_Count);</span><br><span class="line">        //初始化uiHandler 并绑定主线程的looper 运行在主线程</span><br><span class="line">        uiHandler = new Handler(Looper.getMainLooper())&#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void handleMessage(Message msg) &#123;</span><br><span class="line">                //利用线程池中执行完毕的内容,来刷新listview</span><br><span class="line">                if(msg.what==LOAD_FINISH)&#123;</span><br><span class="line">                    ValueObject vo = (ValueObject) msg.obj;</span><br><span class="line">                    ImageView iv = vo.iv;</span><br><span class="line">                    String url = vo.url;</span><br><span class="line">                    Bitmap bitmap = vo.bitmap;</span><br><span class="line">                    //判断iv在发起任务时所绑定的URL是否和下载完成后的URL是否相等</span><br><span class="line">                    //如果相等则显示图片</span><br><span class="line">                    if(iv.getTag().toString().equals(url))&#123;</span><br><span class="line">                        iv.setImageBitmap(bitmap);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;else&#123;</span><br><span class="line"></span><br><span class="line">                    super.handleMessage(msg);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        //创建工作线程并创建pollHandler</span><br><span class="line">        pollThread = new Thread()&#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                Looper.prepare();</span><br><span class="line">                //创建pollhandler</span><br><span class="line">                pollHandler = new Handler()&#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void handleMessage(Message msg) &#123;</span><br><span class="line">                        if(msg.what==NEW_TASK)&#123;</span><br><span class="line">                            //现在任务队列中放入了新的下载任务</span><br><span class="line">                            try &#123;</span><br><span class="line">                                //从线程池中取任务</span><br><span class="line">                              Runnable task= TaskQueue.takeFirst();</span><br><span class="line">                                //将取出的任务放到线程池中去执行</span><br><span class="line">                                exec.execute(task);</span><br><span class="line">                            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                                e.printStackTrace();</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;else&#123;</span><br><span class="line"></span><br><span class="line">                            super.handleMessage(msg);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line"></span><br><span class="line">                Looper.loop();//这个方法一旦启动 写在此方法之后的代码都得不到执行!!</span><br><span class="line">              //  super.run();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        //启动工作线程</span><br><span class="line">        pollThread.start();</span><br><span class="line">        //修改标识</span><br><span class="line">        isFirstTime=false;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获得程序版本号</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private static int getAppVersion() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            PackageInfo info = c.getPackageManager().getPackageInfo(c.getPackageName(),0);</span><br><span class="line">            return  info.versionCode;</span><br><span class="line">        &#125; catch (PackageManager.NameNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获得缓存路径</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private static File getFilePath() &#123;</span><br><span class="line">        //获得程序默认缓存路径</span><br><span class="line">       String defaultPath=  c.getExternalCacheDir().getPath();</span><br><span class="line">        return new File(defaultPath,&quot;imageloadcache&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Load image.</span><br><span class="line">     * 获取url指向的图像并放到iv中显示</span><br><span class="line">     * @param url the url 路径</span><br><span class="line">     * @param iv   the iv imageVIew</span><br><span class="line">     */</span><br><span class="line">    public  static  void loadImage(final String url, final ImageView iv)&#123;</span><br><span class="line">        if(isFirstTime)&#123;</span><br><span class="line">            throw  new RuntimeException(&quot;ImageLoade未做初始化!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        Log.i(&quot;TAG&quot;, &quot;loadImage: &quot; +url);</span><br><span class="line">        //先判断url所指向的图片在缓存中是否有缓存</span><br><span class="line">        //将url转为MD5格式</span><br><span class="line">        String md5Url = getMd5(url);</span><br><span class="line">        //给ImageView 绑定一个URL,用于判断下载完成以后图片是否需要显示</span><br><span class="line">        iv.setTag(md5Url);</span><br><span class="line">        //1.从内存缓存中取图像</span><br><span class="line">        Bitmap bitmap =MemreyCache.get(md5Url);</span><br><span class="line">        if(bitmap!=null)&#123;</span><br><span class="line">            Log.i(&quot;TAG&quot;, &quot;loadImage: 图像是从内存缓存中读取的&quot; );</span><br><span class="line">            iv.setImageBitmap(bitmap);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        //2.从磁盘缓存中取图像</span><br><span class="line">        try &#123;</span><br><span class="line">            DiskLruCache.Snapshot snapshot = diskCache.get(md5Url);</span><br><span class="line">            if(snapshot!=null)&#123;</span><br><span class="line">                Log.i(&quot;TAG&quot;, &quot;loadImage: 图像是从磁盘缓存中获取的&quot;);</span><br><span class="line">                //磁盘缓存中有此图像</span><br><span class="line">                InputStream in= snapshot.getInputStream(0);</span><br><span class="line">                bitmap=BitmapFactory.decodeStream(in);</span><br><span class="line">                //将磁盘缓存中的图像也放在内存缓存中</span><br><span class="line">                MemreyCache.put(md5Url,bitmap);</span><br><span class="line">                iv.setImageBitmap(bitmap);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        //3.代码走的这说明内存缓存和磁盘缓存中都没有此图像</span><br><span class="line">        //去网上下载</span><br><span class="line">        TaskQueue.add(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                // 下载任务</span><br><span class="line">                //发起网络连接,获得图像资源</span><br><span class="line">                try &#123;</span><br><span class="line">                    URL httpurl = new URL(url);</span><br><span class="line">                    HttpURLConnection con = (HttpURLConnection) httpurl.openConnection();</span><br><span class="line">                    con.setRequestMethod(&quot;GET&quot;);</span><br><span class="line">                    con.setDoInput(true);</span><br><span class="line">                    con.connect();</span><br><span class="line">                    InputStream in = con.getInputStream();</span><br><span class="line">                    //1.要对图片进行适当的压缩</span><br><span class="line">                    Bitmap bitmap = compress(in, iv);</span><br><span class="line">                    in.close();</span><br><span class="line">                    //2.将图片存储到内存缓存</span><br><span class="line">                    MemreyCache.put(getMd5(url), bitmap);</span><br><span class="line">                    //3.将图片存储到外存缓存</span><br><span class="line">                    DiskLruCache.Editor editor =  diskCache.edit(getMd5(url));</span><br><span class="line">                    OutputStream os= editor.newOutputStream(0);</span><br><span class="line">                    //将图像以输出流的方式存储</span><br><span class="line">                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,os);</span><br><span class="line">                    //提交存储!!</span><br><span class="line">                    editor.commit();</span><br><span class="line">                    //写日志 (可选操作)</span><br><span class="line">                    diskCache.flush();</span><br><span class="line">                    //4.下载完成通知UI线程</span><br><span class="line">                    //创建ValueObject对象 存储发起任务的ImageView,ImageView要显示图片的URL,URL对应的图片</span><br><span class="line">                    //目的是为了在UI更新时判断图片是否需要显示,避免listView复用时图片刷新.跳动</span><br><span class="line">                    ValueObject vo = new ValueObject(iv,getMd5(url),bitmap);</span><br><span class="line">                    //通知主线程更新UI</span><br><span class="line">                    Message.obtain(uiHandler, LOAD_FINISH,vo).sendToTarget();</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        //发消息给pollHandler 让它去线程池去启动下载任务</span><br><span class="line">        Message.obtain(pollHandler,NEW_TASK).sendToTarget();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据要显示的imageview的大小 对图像进行压缩</span><br><span class="line">     * @param in 图像源</span><br><span class="line">     * @param iv 要显示图像的ImageView</span><br><span class="line">     * @return 图像</span><br><span class="line">     */</span><br><span class="line">    private static Bitmap compress(InputStream in, ImageView iv) &#123;</span><br><span class="line">        Bitmap bitmap=null;</span><br><span class="line">        try&#123;</span><br><span class="line">            //1.先获取原始图像数据源的尺寸大小 在不获取图像的前提下获取图片尺寸的大小</span><br><span class="line">            //将in转为byte[] 借助options实现</span><br><span class="line">            ByteArrayOutputStream out =new ByteArrayOutputStream();</span><br><span class="line">            byte[] buff=new byte[4096];</span><br><span class="line">            int len=-1;</span><br><span class="line">            //循环读取数据</span><br><span class="line">            while ((len=in.read(buff))!=-1)&#123;</span><br><span class="line">                //将读取的信息写入 ByteArrayOutputStream</span><br><span class="line">                out.write(buff,0,len);</span><br><span class="line">            &#125;</span><br><span class="line">            //设定options参数</span><br><span class="line">            BitmapFactory.Options opts= new BitmapFactory.Options();</span><br><span class="line">            opts.inJustDecodeBounds=true;</span><br><span class="line">            //当 inJustDecodeBounds设置了true以后,BitmapFactory不再返回bitmap,只返回opts信息</span><br><span class="line">            //这个方法可以用在加载图片之前先获取图片信息时使用</span><br><span class="line">            BitmapFactory.decodeByteArray(out.toByteArray(),0,out.toByteArray().length,opts);</span><br><span class="line">            //2.通过opts获取宽高信息</span><br><span class="line">            int width = opts.outWidth;//宽度信息</span><br><span class="line">            int height = opts.outHeight;//高度信息</span><br><span class="line">            //以下两个值可能为0</span><br><span class="line">            int targetWidth =iv.getWidth();//iv的宽度</span><br><span class="line">            int targetHeight = iv.getHeight();//iv的高度</span><br><span class="line">            //如果ImageView的高和宽取不到</span><br><span class="line">            if(targetWidth==0||targetHeight==0)&#123;</span><br><span class="line">                //在iamgeview 的宽高获取不到的情况下,有如下解决方案</span><br><span class="line">                //1.可以手动指定一个值</span><br><span class="line">                //2.可以用整个设备屏幕的宽高值进行压缩</span><br><span class="line">                targetWidth=c.getResources().getDisplayMetrics().widthPixels;</span><br><span class="line">                targetHeight=c.getResources().getDisplayMetrics().heightPixels;</span><br><span class="line">            &#125;</span><br><span class="line">            //3.计算压缩比率 判断是否需要压缩</span><br><span class="line">            int sanpleSize = 1;</span><br><span class="line">            if(width*1.0/targetWidth&gt;1||height*1.0/targetHeight&gt;1)&#123;</span><br><span class="line">                //说明图像源比目标显示尺寸大</span><br><span class="line">                //计算压缩比 两数取其大 并向上取整(一定要向上取整!!!)否则强转容易丢失精度!!!</span><br><span class="line">                sanpleSize= (int) Math.ceil( Math.max(width*1.0/targetWidth,height*1.0/targetHeight));</span><br><span class="line">            &#125;</span><br><span class="line">            //4.根据压缩比率压缩图像</span><br><span class="line">            //将压缩比率设置给opts</span><br><span class="line">            opts.inSampleSize=sanpleSize;</span><br><span class="line">            //必须要设置以下这句话,要不设置不能生效!!!!!!!</span><br><span class="line">            opts.inJustDecodeBounds=false;</span><br><span class="line">           bitmap = BitmapFactory.decodeByteArray(out.toByteArray(),0,out.toByteArray().length,opts);</span><br><span class="line">            out.close();//关闭资源</span><br><span class="line">        &#125;catch (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return bitmap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * MD5算法 将URL地址转换成统一的32位长度16进制数据</span><br><span class="line">     * @param url 地址</span><br><span class="line">     * @return 字符串</span><br><span class="line">     */</span><br><span class="line">    private static String getMd5(String url) &#123;</span><br><span class="line">        String result=&quot;&quot;;</span><br><span class="line">        try &#123;</span><br><span class="line">            //指定md5算法</span><br><span class="line">            MessageDigest md = MessageDigest.getInstance(&quot;md5&quot;);</span><br><span class="line">            md.update(url.getBytes());</span><br><span class="line">            byte[] bytes =md.digest();</span><br><span class="line">            StringBuilder sb = new StringBuilder();</span><br><span class="line">            for(byte b :bytes)&#123;</span><br><span class="line">                String str = Integer.toHexString(b &amp; 0xFF);</span><br><span class="line">                if(str.length()==1)&#123;</span><br><span class="line">                    sb.append(&quot;0&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                sb.append(str);</span><br><span class="line">            &#125;</span><br><span class="line">            result=sb.toString();</span><br><span class="line">        &#125; catch (NoSuchAlgorithmException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取手机中CPU核心数</span><br><span class="line">    private static int getNumberOfCores() &#123;</span><br><span class="line">        File file = new File(&quot;/sys/devices/system/cpu/&quot;);</span><br><span class="line">        File[] files= file.listFiles(new FilenameFilter() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public boolean accept(File dir, String filename) &#123;</span><br><span class="line">                return filename.matches(&quot;cpu[0-9]&quot;)?true:false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        return files.length&gt;0?files.length:1;</span><br><span class="line">    &#125;</span><br><span class="line">    private  static class ValueObject&#123;</span><br><span class="line">        ImageView iv;//发起下载任务的那个ImageView</span><br><span class="line">        String url;//IamgeView 对应的URL</span><br><span class="line">        Bitmap bitmap;//URL对应的图像</span><br><span class="line"></span><br><span class="line">        public ValueObject(ImageView iv, String url, Bitmap bitmap) &#123;</span><br><span class="line">            this.iv = iv;</span><br><span class="line">            this.url = url;</span><br><span class="line">            this.bitmap = bitmap;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</the>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/05/17/Android批量加载网络图片存在的问题及简单实现/">(原创) Android批量加载网络图片存在的问题及简单实现</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 Lin Qiang 的个人博客">Lin Qiang</a></p>
+        <p><span>发布时间:</span>2016年05月17日 - 22时49分</p>
+        <p><span>最后更新:</span>2016年05月17日 - 22时53分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/05/17/Android批量加载网络图片存在的问题及简单实现/" title="(原创) Android批量加载网络图片存在的问题及简单实现">http://www.codingnote.net/2016/05/17/Android批量加载网络图片存在的问题及简单实现/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/05/17/Android批量加载网络图片存在的问题及简单实现/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2016/05/17/Android-Studio中如何导入和使用第三方开源库/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">(原创)Android Studio中如何导入和使用第三方开源库</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android批量加载网络图片存在的问题及简单实现"><span class="toc-number">1.</span> <span class="toc-text">Android批量加载网络图片存在的问题及简单实现</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/05/17/Android批量加载网络图片存在的问题及简单实现/" data-title="(原创) Android批量加载网络图片存在的问题及简单实现" data-url="http://www.codingnote.net/2016/05/17/Android批量加载网络图片存在的问题及简单实现/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"null"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = '/js/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2016/05/17/Android-Studio中如何导入和使用第三方开源库/" title="下一篇: (原创)Android Studio中如何导入和使用第三方开源库">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android批量加载网络图片存在的问题及简单实现/">(原创) Android批量加载网络图片存在的问题及简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android-Studio中如何导入和使用第三方开源库/">(原创)Android Studio中如何导入和使用第三方开源库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/17/Android自定义Circleview的简单实现/">(原创) Android自定义Circleview的简单实现</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/12/Android-Studio-自定义注释-快速输入代码片段/">(原创) Android Studio 自定义注释&快速输入代码片段</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/10/Service的使用详解/">(原创) Service的使用详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/09/Android中setUserVisibleHint-方法使用详解/">(原创) Android中setUserVisibleHint()方法使用详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-十-之域名绑定-完结/">(原创) 搭建github博客(十)之域名绑定(完结)</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-九-之deploy发布/">(原创) 搭建github博客(九)之deploy发布</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-八-之SSH配置/">(原创) 搭建github博客(八)之SSH配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-七-进阶之第一篇博客/">(原创) 搭建github博客(七)进阶之第一篇博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-六-进阶之安装Hexo/">(原创) 搭建github博客(六)进阶之安装Hexo</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-五-进阶之github模板/">(原创) 搭建github博客(五)进阶之github pages模板</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-四-准备工作之安装node-js和NPM/">(原创) 搭建github博客(四)准备工作之安装node.js和NPM</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客-三-准备工作之安装git/">(原创) 搭建github博客(三)准备工作之安装git</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客（二）准备工作之注册github账号/">(原创) 搭建github博客(二)准备工作之注册github账号</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/07/搭建github博客（一）之-唠嗑/">(原创) 搭建github博客(一)之初识github pages</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/Git(五)原理/">(原创) Git(五)原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/02.Android Studio入门教程02/">(原创) Android Studio 入门教程之模拟器安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/01.Android Studio入门教程01/">(原创) Android Studio入门教程之常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/Git(四)添加与修改文件/">(原创) Git(四)添加与修改文件</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/Git(三)搭建本地仓库/">(原创) Git(三)搭建本地仓库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/Git(二)安装/">(原创) Git(二)安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/01/Git(一)简介/">(原创) Git(一)简介</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 Lin Qiang
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/luuman/hexo-theme-spfk" target="_blank">spfk</a> by luuman
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+  </div>
+</body>
+</html>
