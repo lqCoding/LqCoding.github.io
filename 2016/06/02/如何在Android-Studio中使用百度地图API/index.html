@@ -3,21 +3,23 @@
 <head>
   <meta charset="utf-8">
   
-  <title>(原创) Git(五)原理 | CodingNote | by LQ</title>
+  <title>(原创) 如何在Android Studio中使用百度地图API | CodingNote | by LQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Git工作原理">
+  <meta name="description" content="如何在Android Studio中使用百度地图API,在Android Studio中如何使用NDK">
 <meta property="og:type" content="article">
-<meta property="og:title" content="(原创) Git(五)原理">
-<meta property="og:url" content="http://www.codingnote.net/2016/05/02/Git(五)原理/index.html">
+<meta property="og:title" content="(原创) 如何在Android Studio中使用百度地图API">
+<meta property="og:url" content="http://www.codingnote.net/2016/06/02/如何在Android-Studio中使用百度地图API/index.html">
 <meta property="og:site_name" content="CodingNote | by LQ">
-<meta property="og:description" content="Git工作原理">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/git05-1.png">
-<meta property="og:image" content="http://7xst88.com2.z0.glb.clouddn.com/git05-2.png">
-<meta property="og:updated_time" content="2016-05-07T14:19:08.344Z">
+<meta property="og:description" content="如何在Android Studio中使用百度地图API,在Android Studio中如何使用NDK">
+<meta property="og:image" content="http://7xst88.com1.z0.glb.clouddn.com/baidu-api-01.png">
+<meta property="og:image" content="http://7xst88.com1.z0.glb.clouddn.com/baidu-api-02.png">
+<meta property="og:image" content="http://7xst88.com1.z0.glb.clouddn.com/baidu-api-03.png">
+<meta property="og:image" content="http://7xst88.com1.z0.glb.clouddn.com/baidu-api-04.png">
+<meta property="og:updated_time" content="2016-06-02T14:34:01.445Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="(原创) Git(五)原理">
-<meta name="twitter:description" content="Git工作原理">
-<meta name="twitter:image" content="http://7xst88.com2.z0.glb.clouddn.com/git05-1.png">
+<meta name="twitter:title" content="(原创) 如何在Android Studio中使用百度地图API">
+<meta name="twitter:description" content="如何在Android Studio中使用百度地图API,在Android Studio中如何使用NDK">
+<meta name="twitter:image" content="http://7xst88.com1.z0.glb.clouddn.com/baidu-api-01.png">
   
     <link rel="alternative" href="/atom.xml" title="CodingNote | by LQ" type="application/atom+xml">
   
@@ -214,11 +216,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-Git(五)原理" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-如何在Android-Studio中使用百度地图API" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/05/02/Git(五)原理/" class="article-date">
-      <time datetime="2016-05-02T05:23:52.000Z" itemprop="datePublished">2016-05-02</time>
+      <a href="/2016/06/02/如何在Android-Studio中使用百度地图API/" class="article-date">
+      <time datetime="2016-06-02T14:30:17.000Z" itemprop="datePublished">2016-06-02</time>
 </a>
     </div>
   
@@ -231,7 +233,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      (原创) Git(五)原理
+      (原创) 如何在Android Studio中使用百度地图API
     </h1>
   
 
@@ -240,13 +242,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Git/">Git</a>
+    <a class="article-category-link" href="/categories/Android-Studio/">Android Studio</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/原理/">原理</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/API/">API</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-Studio/">Android Studio</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -256,15 +258,17 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Git工作原理</p>
+        <p>如何在Android Studio中使用百度地图API,在Android Studio中如何使用NDK</p>
 <a id="more"></a>
 <the rest="" of="" comments="" |="" 余下全文="">
 
 
-<h3 id="Git工作原理"><a href="#Git工作原理" class="headerlink" title="Git工作原理"></a>Git工作原理</h3><p>本章节我们将为大家介绍 Git 的工作原理。<br>一般工作流程如下：<br>克隆 Git 资源作为工作目录。<br>在克隆的资源上添加或修改文件。<br>如果其他人修改了，你可以更新资源。<br>在提交前查看修改。<br>提交修改。<br>在修改完成后，如果发现错误，可以撤回提交并再次修改并提交。<br>下图展示了 Git 的工作流程：<br><img src="http://7xst88.com2.z0.glb.clouddn.com/git05-1.png" alt="工作流程"></p>
-<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>基本概念<br>我们先来理解下Git 工作区、暂存区和版本库概念<br>工作区：就是你在电脑里能看到的目录。<br>暂存区：英文叫stage, 或index。一般存放在”git目录”下的index文件（.git/index）中，所以我们把暂存区有时也叫作索引（index）。<br>版本库：工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。<br>下面这个图展示了工作区、版本库中的暂存区和版本库之间的关系：<br><img src="http://7xst88.com2.z0.glb.clouddn.com/git05-2.png" alt="工作流程"></p>
-<p>图中左侧为工作区，右侧为版本库。在版本库中标记为 “index” 的区域是暂存区（stage, index），标记为 “master” 的是 master 分支所代表的目录树。<br>图中我们可以看出此时 “HEAD” 实际是指向 master 分支的一个”游标”。所以图示的命令中出现 HEAD 的地方可以用 master 来替换。<br>图中的 objects 标识的区域为 Git 的对象库，实际位于 “.git/objects” 目录下，里面包含了创建的各种对象及内容。<br>当对工作区修改（或新增）的文件执行 “git add” 命令时，暂存区的目录树被更新，同时工作区修改（或新增）的文件内容被写入到对象库中的一个新的对象中，而该对象的ID被记录在暂存区的文件索引中。<br>当执行提交操作（git commit）时，暂存区的目录树写到版本库（对象库）中，master 分支会做相应的更新。即 master 指向的目录树就是提交时暂存区的目录树。<br>当执行 “git reset HEAD” 命令时，暂存区的目录树会被重写，被 master 分支指向的目录树所替换，但是工作区不受影响。<br>当执行 “git rm –cached <file>“ 命令时，会直接从暂存区删除文件，工作区则不做出改变。<br>当执行 “git checkout .” 或者 “git checkout – <file>“ 命令时，会用暂存区全部或指定的文件替换工作区的文件。这个操作很危险，会清除工作区中未添加到暂存区的改动。<br>当执行 “git checkout HEAD .” 或者 “git checkout HEAD <file>“ 命令时，会用 HEAD 指向的 master 分支中的全部或者部分文件替换暂存区和以及工作区中的文件。这个命令也是极具危险性的，因为不但会清除工作区中未提交的改动，也会清除暂存区中未提交的改动</file></file></file></p>
-<p>来源： <a href="http://www.runoob.com/git/git-workspace-index-repo.html" target="_blank" rel="external">http://www.runoob.com/git/git-workspace-index-repo.html</a></p>
+
+<h3 id="如何在Android-studio中获取sha1"><a href="#如何在Android-studio中获取sha1" class="headerlink" title="如何在Android studio中获取sha1"></a>如何在Android studio中获取sha1</h3><p><strong>第一步:</strong><br>打开cmd,输入”keytool”命令:<br>如果出现以下界面,那么说明以前你配置好JDK的环境变量了,那么请执行第二步<br><img src="http://7xst88.com1.z0.glb.clouddn.com/baidu-api-01.png" alt="百度API"><br><strong>第二步:</strong><br>输入以下命令获取sha1 ,请把<strong>用户名</strong>换成你自己的!<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -list -v -keystore c:\users\your_user_name\.android\debug.keystore -alias  androiddebugkey -storepass android -keypass android</span><br></pre></td></tr></table></figure></p>
+<p>运行完是下面的结果:<br><img src="http://7xst88.com1.z0.glb.clouddn.com/baidu-api-02.png" alt="百度API"><br>复制粘贴到网页即可.</p>
+<h3 id="如何在Android-studio中使用百度地图API的So文件-NDK"><a href="#如何在Android-studio中使用百度地图API的So文件-NDK" class="headerlink" title="如何在Android studio中使用百度地图API的So文件(NDK)"></a>如何在Android studio中使用百度地图API的So文件(NDK)</h3><p>在Android studio中使用NDK的方式跟在Eclipse中不同<br><strong>第一种方式:</strong><br>在以下路径下新建jniLibs文件夹,并导入so文件或者文件夹<br>project—&gt;src—&gt;main—-&gt;jniLibs<br>然后将百度提供的so文件个文件夹拷贝到你新建的文件夹下,然后同步即可,拷贝完成后结果如下:<br><img src="http://7xst88.com1.z0.glb.clouddn.com/baidu-api-03.png" alt="百度API"><br><strong>第二种方式</strong><br>你可以将so文件和文件夹拷贝的你项目的libs文件夹,或者你自定义的文件夹内,只需要在gradle里面配置下NDK文件的路径即可;<br>比如你将文件拷贝到了libs文件夹下:<br><strong>注意:</strong><br>你在百度开发者中心可能会看到配置方式是这么写的:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sourceSets &#123;</span><br><span class="line">        	main &#123;</span><br><span class="line">    			jniLibs.srcDirs = [&apos;libs&apos;]&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实这是老版本android studio 中的写法 ,其实这种写法是不对的,现在的写法如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sourceSets.main &#123;</span><br><span class="line">    jniLibs.srcDir &apos;libs&apos; // &lt;-- 这里写你拷贝so的文件夹</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://7xst88.com1.z0.glb.clouddn.com/baidu-api-04.png" alt="百度API"></p>
 </the>
       
     </div>
@@ -273,13 +277,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/05/02/Git(五)原理/">(原创) Git(五)原理</a></p>
+        <p><span>本文标题:</span><a href="/2016/06/02/如何在Android-Studio中使用百度地图API/">(原创) 如何在Android Studio中使用百度地图API</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 Lin Qiang 的个人博客">Lin Qiang</a></p>
-        <p><span>发布时间:</span>2016年05月02日 - 13时23分</p>
-        <p><span>最后更新:</span>2016年05月07日 - 22时19分</p>
+        <p><span>发布时间:</span>2016年06月02日 - 22时30分</p>
+        <p><span>最后更新:</span>2016年06月02日 - 22时34分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/05/02/Git(五)原理/" title="(原创) Git(五)原理">http://www.codingnote.net/2016/05/02/Git(五)原理/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/05/02/Git(五)原理/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/06/02/如何在Android-Studio中使用百度地图API/" title="(原创) 如何在Android Studio中使用百度地图API">http://www.codingnote.net/2016/06/02/如何在Android-Studio中使用百度地图API/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://www.codingnote.net/2016/06/02/如何在Android-Studio中使用百度地图API/　　作者: Lin Qiang" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -292,18 +296,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2016/05/07/搭建github博客（一）之-唠嗑/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          (原创) 搭建github博客(一)之初识github pages
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/05/01/02.Android Studio入门教程02/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">(原创) Android Studio 入门教程之模拟器安装</div>
+    <a href="/2016/05/17/Android批量加载网络图片存在的问题及简单实现/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">(原创) Android批量加载网络图片存在的问题及简单实现</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -314,7 +309,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Git工作原理"><span class="toc-number">1.</span> <span class="toc-text">Git工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基本概念"><span class="toc-number">2.</span> <span class="toc-text">基本概念</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何在Android-studio中获取sha1"><span class="toc-number">1.</span> <span class="toc-text">如何在Android studio中获取sha1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何在Android-studio中使用百度地图API的So文件-NDK"><span class="toc-number">2.</span> <span class="toc-text">如何在Android studio中使用百度地图API的So文件(NDK)</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -376,7 +371,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/05/02/Git(五)原理/" data-title="(原创) Git(五)原理" data-url="http://www.codingnote.net/2016/05/02/Git(五)原理/"></div>
+    <div class="ds-thread" data-thread-key="2016/06/02/如何在Android-Studio中使用百度地图API/" data-title="(原创) 如何在Android Studio中使用百度地图API" data-url="http://www.codingnote.net/2016/06/02/如何在Android-Studio中使用百度地图API/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -399,13 +394,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/05/07/搭建github博客（一）之-唠嗑/" title="上一篇: (原创) 搭建github博客(一)之初识github pages">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2016/05/01/02.Android Studio入门教程02/" title="下一篇: (原创) Android Studio 入门教程之模拟器安装">
+            <a href="/2016/05/17/Android批量加载网络图片存在的问题及简单实现/" title="下一篇: (原创) Android批量加载网络图片存在的问题及简单实现">
                 <i class="fa fa-angle-right"></i>
             </a>
         
